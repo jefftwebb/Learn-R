@@ -1,0 +1,378 @@
+---
+title: "Learn R"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: Learn R Lessons
+    toc-depth: 4
+    self-contained: true
+
+reference-location: margin
+citation-location: margin
+number-sections: true
+---
+
+## Introduction
+
+These lessons introduce R in a simple step-by-step fashion, with the goal of equipping you---quickly and efficiently---to analyze data. While some examples are drawn from statistics, the focus is on R programming only (with some attention to other tools in the R ecosystem). The objective is to help you develop programming skills quickly with brief but thorough explanations using examples. Each lesson also includes practice questions.
+
+-   **Practice**: As you work through each lesson I recommend you type the example code into R or RStudio to run on your own computer. Active learning---typing rather than just reading---will help you better understand, and remember, the material.
+
+-   **Non-programmers**: We start from the beginning and build up step-by-step to develop the advanced skills needed for professional data roles in industry.
+
+-   **Functional workflows**: These lessons start with "base R"---the software that is automatically included when you download and install R---but later introduce a collection of add-on packages called the "tidyverse." You will learn how to combine base R with tidyverse functions and coding paradigms to write code with maximum efficiency and readability.
+
+-   **Motivating**: From the beginning you will be doing work in R that has immediate application for uncovering insights from data.
+
+-   **No frills**: The focus is on R programming only, without including statistics or other data analysis techniques except as examples. This will make it easier for you to really concentrate on learning R programming.
+
+
+
+Conventions: 
+
+- The first appearance of a key term is **bolded** for easy reference. You should know and remember these words.
+- R code is presented in colored text: `mean(x).`
+- Additional details are presented in the marginal notes and in blue tip  or detail blocks:
+
+::: callout-note
+## Tip
+:::
+
+- Exercises are in green practice blocks. 
+
+::: callout-tip
+## Practice
+:::
+
+Let's start!
+
+## Install R
+
+R is a free, open source statistical programming language that consists in a set of tools for doing stuff with data: wrangling, plotting, summarizing and modeling it (among other things). Go to the [Comprehensive R Archive Network](https://cran.r-project.org/) (CRAN) to download R, making sure to pick the latest release for your operating system.[^1] Install R by opening the downloaded installer.
+
+[^1]: Here are [video instructions](https://vimeo.com/203516510) for downloading R.
+
+There are a very large number of supplementary packages that extend R's usefulness; these must be downloaded and installed separately. (We will cover that later.) One of the great things about R is that the development community is extremely active and new packages implementing cutting edge techniques are being added all the time. (As of October 2022 there were over 18,000 packages.)
+
+## Install RStudio
+
+RStudio is a free integrated design environment or IDE for R. (Wikipedia: "An integrated development environment is a software application that provides comprehensive facilities to computer programmers for software development.")
+
+R can certainly be used by itself but the graphical user interface or GUI is extremely minimalistic. RStudio should help improve your productivity by supplying a much richer GUI with menu-driven support for many programming and organizational tasks.
+
+Go to [rstudio.com](https://www.rstudio.com/products/rstudio/) to download the free desktop version of RStudio. Pick the version that is appropriate for your operating system.[^2] Note: you must have R installed before you install RStudio.
+
+[^2]: Here are [video instructions](https://vimeo.com/203516968) for downloading RStudio.
+
+A free cloud-hosted version of RStudio is also available---[RStudio Cloud](%22www.rstudio.cloud%22)---that has the same appearance and functionality as the desktop version. Be aware that the free tier is capped at 25 hours per month.
+
+It is important to keep in mind that RStudio is not itself a programming language; it simply supplies a computer environment for interacting with the programming language of your choice. Think of it like this: The plumbing in your home supplies water, but the plumbing system is not the water. RStudio is a bit like plumbing. You could carry water in from outside, just as you could use R by itself, but it is faster and more convenient to use an IDE like RStudio.
+
+RStudio is a complicated piece of software at this point. Don't be intimidated! We will be using just a few features.
+
+## The Console
+
+Open RStudio. If this is your first time using the software you will see three windows (or "panes"). On the left is a large window filling the screen from top to bottom with a tab titled console.
+
+![](rstudio.png)
+
+This is where you interact directly with R by typing commands and getting results.
+
+You should see two other windows on the right with multiple tabs in each. We will call these the "Environment" pane (upper right) and the "Files" pane (lower right). We will discuss these windows in later lessons (along with other RStudio features). For now let's concentrate just on the console and begin learning to program in R.
+
+## First Steps
+
+The R **command prompt** is `>`. This indicates where you will type R code in the console to perform various tasks. You don't need to type the `>` since R automatically includes it on each new line.
+
+Most simply, R is a calculator. Type `2 + 2` at the command prompt in the console and press Return.
+
+```{r}
+2 + 2
+```
+
+The output or return value is `[1] 4`. The `[1]` just refers to the row label of the output in the console. Labels are helpful for reference when the output becomes lengthy.
+
+
+Here we have used `+`. But all the other **mathematical operators** you would expect are available for doing arithmetic in R:
+
+-   Subtract: `-`.
+-   Divide: `/`.
+-   Multiply: `*`.
+-   Raise to a power: `^`. For example, `2^2` returns `4`.
+-   Calculate the remainder of division (the modulo operator): `%%`. For example, `5 %% 2` returns `1`.
+
+Parentheses are used to define the order of operations in calculations. For example, `2 * 2 - 3` is not the same as `2 * (2 - 3)`. The first expression returns `1`, while the second returns `-2`. R will evaluate multiplication and division before addition and subtraction.
+
+::: callout-tip
+## Practice
+
+1.  Place your cursor at the command prompt and press Return. Press Return several more times. You will notice that the cursor advances to the next line with another command prompt appearing automatically as the console window scrolls up.
+
+2. Experiment with subtraction, division and multiplication in the console.
+
+3.  Attempt a couple of more complicated calculations:
+
+    -   Subtract 5 from 10 and multiply the result by 2. Answer: 10.
+
+    -   Add 4 and 5 then square the result. Answer: 81.
+
+4.  Here are several more:
+
+    -   $\frac{5^3 \text{ x } (6-3)}{60-3+4}$. Answer: 6.147541.
+
+    -   $\frac{5^{3 \text{ x } 6} -3}{60-3+4}$. Answer: 62536020748.
+
+    -   $\frac{.55 - (1 - .55)^\frac{1}{2}}{29}$. Answer: .00416622.
+
+    -   $\frac{.55 - 1 - .55^\frac{1}{2}}{29}$. Answer: -.04109034.
+:::
+
+::: callout-note
+
+## Tip
+
+When your cursor is in the console you can navigate to code you typed earlier using the up key. And you can then navigate to more recent code using the down key. This can be a time saver if you want to adapt and run earlier code rather than typing new code.
+:::
+
+## Objects
+
+We can assign the result of a calculation---or, really, any value we wish--- to an **object**, stored in memory, for use later. For example:
+
+```{r}
+x <- 1 + 2
+```
+
+Let's back up for a moment. The `<-` in the code above is the **assignment operator**. It says: take the value on the right and assign it to (store it in) the object on the left. `<-` is like a pointer. For example, this code does exactly the same thing:
+
+```{r}
+1 + 2 -> x
+```
+
+Based on the reversed direction of assignment, this code says: take the value on the left and assign it to the object on the right. (Could we use `=` for assignment, as in Python? Yes, for the most part, although there are some situations where `=` will lead to problems. Best to stick with `<-` for clarity.)
+
+To explore objects further, try this code:
+
+```{r}
+#| error: true
+3 <- 1 + 2
+```
+
+We get an error. Errors in R (which on your local machine will be printed in red, to get your attention) *attempt* to supply some useful information so that you can correct the problem. *Don't panic about errors*: they are an unavoidable part of programming, such that it is largely accurate to say that "coding is debugging." The key is to figure out how to understand and use error messages. Here we are told: "invalid (do_set) left-hand side to assignment." (I'm not sure what "(do_set)" means. But I could probably figure it out by googling: "do_set R.")^[Googling R  errors will often take you to the Stack Overflow site, which hosts a community Q&A forum. Stack Overflow discussions can be useful, but are sometimes incomplete or incorrect. As always, you need to think critically about (rather than just blindly accepting) information on the internet. Best practice here would be to google the non-specific part of the error message: "invalid (do_set) left-hand side to assignment."] Take a moment to think about the error message. Something is wrong with the left-hand side of the assignment. This makes sense.  We can't *assign* 3 a value because, as a number, it already has a value intrinsically. For objects, we must instead pick letters or words which do not already have an assigned value. (Think of this as analogous to math when "x" is used to *represent* a value. Same thing here.)
+
+
+
+This code will work:
+
+```{r}
+three <- 1 + 2
+```
+
+Notice that, as above, no output value is returned to the console. That's because the assignment operation happens in the background, in R's memory. We can return the value of the object simply by typing "three" and pressing return:
+
+```{r}
+three
+```
+
+So, we have now defined two R objects, `x` and `three`, both with the value of 3. These are stored in memory and are available for use in further calculations. Observe:
+
+```{r}
+x + three
+```
+
+Using objects we can even do further assignment without typing any numbers at all:
+
+```{r}
+y <- x + three
+```
+
+And, again, to check the value of `y` type it in the console and press Return.
+
+```{r}
+y
+```
+
+::: callout-tip
+
+## Practice
+
+1.  Google "do_set R." What does Stack Overflow say?
+
+2.  Define two objects, `a` and `b`, to be different numbers. Calculate:
+
+    -   $a + b$
+
+    -   $a ^2 + b^2$
+
+    -   $a^b$
+
+    -   $\frac{a-b}{a+b}$
+
+3.  You can store a new value in an existing object. (This will overwrite the old value.) Try this with the `a` above: `a <- a / a`. Now what is the value of `a`?
+:::
+
+## Vectors
+
+So far we have assigned single numeric values---numbers---to R objects. Could a *collection* of numbers be stored in an object? Yes. Rather than doing the assignment ourselves, let's use some data already included in R. The `rivers` dataset records the lengths of major North American rivers.
+
+```{r}
+rivers
+
+```
+
+This is a type of dataset called a **vector**. A vector is any collection of similar items, observations or measurements in R, such as: the letters in the alphabet, salaries of bank managers, heights of students in a class, whole numbers between 1 and 100, the names of fruit at the grocery store.
+
+The bracketed row labels printed along the left-hand side of the output refer to the vector **index** of the first item in each row.^[Note that the length of the rows, and hence the row labels, will change depending on the width of your console.] What do we mean by index? An item's index is simply its position in the vector. For example, the `[1]` indicates the first item, and also serves as a row label. The row labels make it easy to refer to individual observations.^[The index position of observations within a vector are often referred to with subscripts. The item in the first position, 735, is $\text{river}_1$, while the item in the last position, 1770, is $\text{river}_{141}$. To refer abstractly to individual items within a vector the convention is to use $i$ for "index": $\text{river}_{i}$.]
+
+We can do arithmetic with vectors. For example, to add 1 to every item in `rivers` simply type `rivers + 1`:
+
+```{r}
+rivers + 1
+```
+
+The other mathematical operators we discussed above also work with vectors. For example, suppose that we want a quick way to figure out whether river mile lengths are odd. We could divide `rivers` by 2 and calculate the remainder with the modulo operator.
+
+```{r}
+rivers %% 2
+```
+
+A remainder of 1 indicates that the river length is odd.
+
+These results illustrate an important fact: vector operations involving a single number are performed *element-wise* in R: 1 is added to each item, or the remainder is calculated after each item is divided by 2, and so forth.  These are called *scalar-vector* operations and can be represented abstractly like this:
+
+$$ a + \begin{bmatrix}
+b \\
+c \\
+d 
+\end{bmatrix} = \begin{bmatrix}
+a + b \\
+a + c \\
+a + d
+\end{bmatrix} $$
+
+where $a$ is a single number and $[b, c, d]$ is a vector.
+
+We can also do arithmetic with whole vectors.
+
+```{r}
+rivers / rivers
+```
+
+Again, the calculation is done element-wise: each element of rivers has been divided by itself. We can represent this operation as:
+
+$$ \begin{bmatrix} a \\ b \\ c \end{bmatrix} \div \begin{bmatrix} a \\ b \\ c \end{bmatrix} = \begin{bmatrix} \frac{a}{a} = 1\\ \frac{b}{b} = 1\\ \frac{c}{c} =1 \end{bmatrix} $$
+
+Of course, we need numbers to do this sort of of vector arithmetic. But, as noted above, a vector in R  does not need to be numbers.^[A distinction is helpful here.  In math a vector is a sequence of numbers.  In R a vector is a type of data structure.] Here is another dataset already included in R: the letters of the alphabet.
+
+```{r}
+letters
+```
+
+Can we add 1 to this vector of letters?
+
+```{r}
+#| error: true
+letters + 1
+```
+
+We get an error, which is pretty self-explanatory. The addition operator does not work with non-numeric data.
+
+::: callout-tip
+
+## Practice
+
+1.  In `river` the lengths of rivers are recorded in miles. Convert river lengths to *kilometers* (1 mile = 1.60934 kilometers).
+
+2.  Convert river lengths to *meters*.
+
+3.  Solve:
+
+$$ 2 * \begin{bmatrix} 3 \\ 4 \\ 5 \end{bmatrix}$$
+
+4.  Solve:
+
+$$ \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} *  \begin{bmatrix} 4 \\ 5 \\ 6  \end{bmatrix}$$
+
+5. In this R vector, $y$, what is $y_4$?
+
+```{r include = F}
+y <- c(16, 25, 36, 49, 64)
+
+```
+
+```{r}
+y
+```
+
+
+:::
+
+## Functions
+
+Let's visualize river lengths by creating a **histogram**.^[Recall that a histogram is just a frequency plot with the height of the bars indicating the number of observations in the interval represented by the bar. Here we use base R plotting to create the histogram. We will get to visualization using the ggplot package in a later lesson.]
+
+```{r}
+hist(rivers)
+```
+
+This plot provides insight into the distribution of river lengths, showing that the majority of rivers  in North America are shorter than 1000 miles, with the most common length less than 500 miles. There is at least one extreme outlier---the Mississippi?--- on the right. 
+
+`hist()` is an example of a R **function**.  It takes a vector of numbers as an **argument** (or input) and then prints the histogram.  Other functions produce output.  As an example, let's calculate median river length using the `median()` function. (This is known as "calling the function".)
+
+```{r}
+median(rivers)
+```
+
+425 is the median, the middle observation in the sorted data.  
+
+In R, functions are often named exactly as you'd expect.  Here is how we calculate the mean:
+
+```{r}
+mean(rivers)
+```
+
+And we can replicate this result using other aptly named functions.  
+
+```{r}
+sum(rivers)/length(rivers)
+```
+
+
+::: callout-note
+
+## Detail
+
+Why does this code work? The formula for the sample mean, $\bar{x}$ (pronounced "x bar"), is: 
+
+$$\bar{x}= \frac{1}{n}\sum_{i=1}^{n}x_{i}$$
+
+where $n$ is the total number of observations and $x_i$ represents each individual observation.  That funny E symbol is called the "summation symbol," indicating that all the observations, the $x_i$, should be added up, from $i=1$ to $n$. We talked about indexes earlier.  Same idea here.  The first $x$ observation would be $x_1$ but the individual observations can be abstractly represented as $x_i$. 
+
+`sum()` simply adds up the $x_i$, performing the work of the summation symbol, while `length()` calculates $n$.
+:::
+
+Most functions have multiple arguments.  For example, `hist()` has an additional argument, `breaks`, that allows us to adjust the number of bins in the histogram.^[Note that the number of *bins* is not exactly the number of *bars* since some bins---defined by intervals on the horizontal axis---are empty.]
+
+```{r}
+hist(rivers, breaks = 20)
+```
+
+This plot gives us more detail, higher resolution.  
+
+But: how did `hist()` know the number of bins to use earlier, before we included the `breaks` argument? Functions in R include **default settings** for arguments. `hist()` was using the default for `breaks` until we explicitly set a value. In general, R has very good default settings---the mark of good software.
+
+How would we discover the arguments to a function, along with the default settings, in case we wanted to make adjustments?
+
+That is the next topic.
+
+::: callout-tip
+
+## Practice
+
+1. Google "hist R" to learn more about this function, its arguments and default settings.
+
+:::
+
+## More Rstudio
+
+
