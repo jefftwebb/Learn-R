@@ -4,18 +4,28 @@ format:
   html:
     toc: true
     toc-location: left
-    toc-title: Learn R Lessons
-    toc-depth: 4
+    toc-title: Lessons
+    toc-depth: 3
     self-contained: true
-
+author:
+  - name: Jeff Webb
+    affiliations:
+      - name: David Eccles School of Business
 reference-location: margin
 citation-location: margin
 number-sections: true
 ---
 
-## Introduction
+```{r}
+#| include = FALSE
+data(mtcars)
+data(iris)
+data(longley)
+```
 
-These lessons introduce R in a simple step-by-step fashion, with the goal of equipping you---quickly and efficiently---to analyze data. While some examples are drawn from statistics, the focus is on R programming only (with some attention to other tools in the R ecosystem). The objective is to help you develop programming skills quickly with brief but thorough explanations using examples. Each lesson also includes practice questions.
+## Introduction {.unnumbered}
+
+These lessons introduce R in a simple step-by-step fashion, with the goal of equipping you---quickly and efficiently---to analyze data. While some examples are drawn from statistics, the focus is on R programming only (with some attention to other tools in the R ecosystem). The objective is to help you develop programming skills quickly with brief but thorough explanations using examples.
 
 -   **Practice**: As you work through each lesson I recommend you type the example code into R or RStudio to run on your own computer. Active learning---typing rather than just reading---will help you better understand, and remember, the material.
 
@@ -23,63 +33,59 @@ These lessons introduce R in a simple step-by-step fashion, with the goal of equ
 
 -   **Functional workflows**: These lessons start with "base R"---the software that is automatically included when you download and install R---but later introduce a collection of add-on packages called the "tidyverse." You will learn how to combine base R with tidyverse functions and coding paradigms to write code with maximum efficiency and readability.
 
--   **Motivating**: From the beginning you will be doing work in R that has immediate application for uncovering insights from data.
+-   **Motivating**: From the start you will be doing work in R that has immediate application for uncovering insights from data. You won't get bogged down in overly detailed explanations of lesser used features of the language. Advanced material will be introduced later as needed.
 
 -   **No frills**: The focus is on R programming only, without including statistics or other data analysis techniques except as examples. This will make it easier for you to really concentrate on learning R programming.
 
+Conventions:
 
-
-Conventions: 
-
-- The first appearance of a key term is **bolded** for easy reference. You should know and remember these words.
-- R code is presented in colored text: `mean(x).`
-- Additional details are presented in the marginal notes and in blue tip  or detail blocks:
+-   The first appearance of a key term is **bolded** for easy reference. You should know and remember these words.\
+-   R code is presented in highlighted text: `mean(x).`
+-   Additional details are presented in the marginal notes and in blue "tip" or "detail" blocks:
 
 ::: callout-note
 ## Tip
 :::
 
-- Exercises are in green practice blocks. 
+<!-- - Exercises are in green practice blocks.  -->
 
-::: callout-tip
-## Practice
-:::
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- ::: -->
+
+I'd like to acknowledge Norm Matloff's introduction to R programming, "FasteR," which served as inspiration for these lessons.
 
 Let's start!
 
-## Install R
+<!-- # Basic R Programming {.unnumbered} -->
 
-R is a free, open source statistical programming language that consists in a set of tools for doing stuff with data: wrangling, plotting, summarizing and modeling it (among other things). Go to the [Comprehensive R Archive Network](https://cran.r-project.org/) (CRAN) to download R, making sure to pick the latest release for your operating system.[^1] Install R by opening the downloaded installer.
+## Install R and RStudio
 
-[^1]: Here are [video instructions](https://vimeo.com/203516510) for downloading R.
+R is a free, open source statistical programming language that consists in a set of tools for doing stuff with data: wrangling, plotting, summarizing and modeling it (among other things). Go to the [Comprehensive R Archive Network](https://cran.r-project.org/) (CRAN) to download R, making sure to pick the latest release for your operating system. Install R by opening the downloaded installer.
 
 There are a very large number of supplementary packages that extend R's usefulness; these must be downloaded and installed separately. (We will cover that later.) One of the great things about R is that the development community is extremely active and new packages implementing cutting edge techniques are being added all the time. (As of October 2022 there were over 18,000 packages.)
 
-## Install RStudio
+R can be used by itself but the user interface is minimalistic. RStudio is a free integrated design environment or IDE[^1] that will improve your productivity in R by supplying a much richer GUI with menu-driven support for many programming and organizational tasks. Go to [posit.com](https://posit.co/downloads/) to download the free desktop version of RStudio.[^2] (RStudio changed its name to posit in November 2022.) Pick the version that is appropriate for your operating system. Note that you must have R installed before you install RStudio.
 
-RStudio is a free integrated design environment or IDE for R. (Wikipedia: "An integrated development environment is a software application that provides comprehensive facilities to computer programmers for software development.")
+[^1]: [Wikipedia](https://en.wikipedia.org/wiki/Integrated_development_environment): "An integrated development environment is a software application that provides comprehensive facilities to computer programmers for software development."
 
-R can certainly be used by itself but the graphical user interface or GUI is extremely minimalistic. RStudio should help improve your productivity by supplying a much richer GUI with menu-driven support for many programming and organizational tasks.
+[^2]: A free cloud-hosted version of RStudio is also available, [RStudio Cloud](www.posit.cloud), that has the same appearance and functionality as the desktop version. Be aware that the free tier is capped at 25 hours per month.
 
-Go to [rstudio.com](https://www.rstudio.com/products/rstudio/) to download the free desktop version of RStudio. Pick the version that is appropriate for your operating system.[^2] Note: you must have R installed before you install RStudio.
+RStudio is a complicated piece of software at this point. Don't be intimidated! You will be using just a few very basic features at first.
 
-[^2]: Here are [video instructions](https://vimeo.com/203516968) for downloading RStudio.
-
-A free cloud-hosted version of RStudio is also available---[RStudio Cloud](%22www.rstudio.cloud%22)---that has the same appearance and functionality as the desktop version. Be aware that the free tier is capped at 25 hours per month.
-
-It is important to keep in mind that RStudio is not itself a programming language; it simply supplies a computer environment for interacting with the programming language of your choice. Think of it like this: The plumbing in your home supplies water, but the plumbing system is not the water. RStudio is a bit like plumbing. You could carry water in from outside, just as you could use R by itself, but it is faster and more convenient to use an IDE like RStudio.
-
-RStudio is a complicated piece of software at this point. Don't be intimidated! We will be using just a few features.
+RStudio is not itself a programming language; it simply supplies a computer environment for interacting with the programming language of your choice --- not just R but also Python, SQL and others. Think of it like this: The plumbing in your home supplies water, but the plumbing system is not the water. RStudio is a bit like plumbing. You could carry water in from outside, just as you could use R by itself, but it is faster and more convenient to use an IDE like RStudio.
 
 ## The Console
 
-Open RStudio. If this is your first time using the software you will see three windows (or "panes"). On the left is a large window filling the screen from top to bottom with a tab titled console.
+Open RStudio. If this is your first time using the software you will see three windows (or "panes"). On the left is a large window filling the screen from top to bottom with a tab titled **console**.
 
-![](rstudio.png)
+![RStudio layout](rstudio.png)
 
 This is where you interact directly with R by typing commands and getting results.
 
-You should see two other windows on the right with multiple tabs in each. We will call these the "Environment" pane (upper right) and the "Files" pane (lower right). We will discuss these windows in later lessons (along with other RStudio features). For now let's concentrate just on the console and begin learning to program in R.
+You should see two other windows on the right with multiple tabs in each. We will call these the **Environment pane** (upper right) and the **Files pane** (lower right). We will discuss these windows in later lessons (along with other RStudio features). For now let's concentrate just on the console and begin learning to program in R.
 
 ## First Steps
 
@@ -93,7 +99,6 @@ Most simply, R is a calculator. Type `2 + 2` at the command prompt in the consol
 
 The output or return value is `[1] 4`. The `[1]` just refers to the row label of the output in the console. Labels are helpful for reference when the output becomes lengthy.
 
-
 Here we have used `+`. But all the other **mathematical operators** you would expect are available for doing arithmetic in R:
 
 -   Subtract: `-`.
@@ -102,42 +107,45 @@ Here we have used `+`. But all the other **mathematical operators** you would ex
 -   Raise to a power: `^`. For example, `2^2` returns `4`.
 -   Calculate the remainder of division (the modulo operator): `%%`. For example, `5 %% 2` returns `1`.
 
-Parentheses are used to define the order of operations in calculations. For example, `2 * 2 - 3` is not the same as `2 * (2 - 3)`. The first expression returns `1`, while the second returns `-2`. R will evaluate multiplication and division before addition and subtraction.
+Parentheses are used to define the order of operations in calculations. For example, `2 * 2 - 3` is not the same as `2 * (2 - 3)`. The first expression returns `1`, while the second returns `-2`. As expected, R will evaluate multiplication and division before addition and subtraction.[^3]
 
-::: callout-tip
-## Practice
+[^3]: You may recall a mnemonic for order of operations from earlier schooling: "Please Excuse My Dear Aunt Sally." This applies in R. Evaluate expressions in **P**arentheses, followed by **E**xponents, then **M**ultiplication, **D**ivision, **A**ddition and **S**ubtraction.
 
-1.  Place your cursor at the command prompt and press Return. Press Return several more times. You will notice that the cursor advances to the next line with another command prompt appearing automatically as the console window scrolls up.
+<!-- ::: callout-tip -->
 
-2. Experiment with subtraction, division and multiplication in the console.
+<!-- ## Practice -->
 
-3.  Attempt a couple of more complicated calculations:
+<!-- 1.  Place your cursor at the command prompt and press Return. Press Return several more times. You will notice that the cursor advances to the next line with another command prompt appearing automatically as the console window scrolls up. -->
 
-    -   Subtract 5 from 10 and multiply the result by 2. Answer: 10.
+<!-- 2. Experiment with subtraction, division and multiplication in the console. -->
 
-    -   Add 4 and 5 then square the result. Answer: 81.
+<!-- 3.  Attempt a couple of more complicated calculations: -->
 
-4.  Here are several more:
+<!--     -   Subtract 5 from 10 and multiply the result by 2. Answer: 10. -->
 
-    -   $\frac{5^3 \text{ x } (6-3)}{60-3+4}$. Answer: 6.147541.
+<!--     -   Add 4 and 5 then square the result. Answer: 81. -->
 
-    -   $\frac{5^{3 \text{ x } 6} -3}{60-3+4}$. Answer: 62536020748.
+<!-- 4.  Here are several more: -->
 
-    -   $\frac{.55 - (1 - .55)^\frac{1}{2}}{29}$. Answer: .00416622.
+<!--     -   $\frac{5^3 \text{ x } (6-3)}{60-3+4}$. Answer: 6.147541. -->
 
-    -   $\frac{.55 - 1 - .55^\frac{1}{2}}{29}$. Answer: -.04109034.
-:::
+<!--     -   $\frac{5^{3 \text{ x } 6} -3}{60-3+4}$. Answer: 62536020748. -->
+
+<!--     -   $\frac{.55 - (1 - .55)^\frac{1}{2}}{29}$. Answer: .00416622. -->
+
+<!--     -   $\frac{.55 - 1 - .55^\frac{1}{2}}{29}$. Answer: -.04109034. -->
+
+<!-- ::: -->
 
 ::: callout-note
-
 ## Tip
 
-When your cursor is in the console you can navigate to code you typed earlier using the up key. And you can then navigate to more recent code using the down key. This can be a time saver if you want to adapt and run earlier code rather than typing new code.
+Notice that when after R produces a return value the cursor advances to the next line with another command prompt appearing automatically. As you repeat this process the console window scrolls up and you can no longer see the earlier code you typed. However, you can navigate to code you typed earlier using the up key. And you can then navigate to more recent code using the down key. This can be a time saver if you want to adapt and run earlier code rather than typing new code.
 :::
 
 ## Objects
 
-We can assign the result of a calculation---or, really, any value we wish--- to an **object**, stored in memory, for use later. For example:
+We can assign the result of a calculation---or, really, any value we wish--- to an **object** stored in memory for use later. For example:
 
 ```{r}
 x <- 1 + 2
@@ -158,9 +166,9 @@ To explore objects further, try this code:
 3 <- 1 + 2
 ```
 
-We get an error. Errors in R (which on your local machine will be printed in red, to get your attention) *attempt* to supply some useful information so that you can correct the problem. *Don't panic about errors*: they are an unavoidable part of programming, such that it is largely accurate to say that "coding is debugging." The key is to figure out how to understand and use error messages. Here we are told: "invalid (do_set) left-hand side to assignment." (I'm not sure what "(do_set)" means. But I could probably figure it out by googling: "do_set R.")^[Googling R  errors will often take you to the Stack Overflow site, which hosts a community Q&A forum. Stack Overflow discussions can be useful, but are sometimes incomplete or incorrect. As always, you need to think critically about (rather than just blindly accepting) information on the internet. Best practice here would be to google the non-specific part of the error message: "invalid (do_set) left-hand side to assignment."] Take a moment to think about the error message. Something is wrong with the left-hand side of the assignment. This makes sense.  We can't *assign* 3 a value because, as a number, it already has a value intrinsically. For objects, we must instead pick letters or words which do not already have an assigned value. (Think of this as analogous to math when "x" is used to *represent* a value. Same thing here.)
+We get an error. Errors in R (which on your local machine will be printed in red, to get your attention) *attempt* to supply some useful information so that you can correct the problem. *Don't panic about errors*: they are an unavoidable part of programming, such that it is largely accurate to say that "coding is debugging." The key is to figure out how to understand and use error messages. Here we are told: "invalid (do_set) left-hand side to assignment." (I'm not sure what "(do_set)" means. But I could probably figure it out by googling: "do_set R.")[^4] Take a moment to think about the error message. Something is wrong with the left-hand side of the assignment, which makes sense. We can't *assign* 3 a value because, as a number, it already has a value intrinsically. For objects, we must instead pick letters or words which do not already have an assigned value. (Think of this as analogous to math when "x" is used to *represent* a value. Same thing here.)
 
-
+[^4]: Googling R errors will often take you to the Stack Overflow site, which hosts a community Q & A forum. Stack Overflow discussions can be useful, but are sometimes incomplete or incorrect. As always, you need to think critically about (rather than just blindly accepting) information on the internet. Best practice here would be to google the non-specific part of the error message: "invalid (do_set) left-hand side to assignment."
 
 This code will work:
 
@@ -180,7 +188,7 @@ So, we have now defined two R objects, `x` and `three`, both with the value of 3
 x + three
 ```
 
-Using objects we can even do further assignment without typing any numbers at all:
+Using objects, we can even do further assignment without typing any numbers at all:
 
 ```{r}
 y <- x + three
@@ -192,24 +200,25 @@ And, again, to check the value of `y` type it in the console and press Return.
 y
 ```
 
-::: callout-tip
+<!-- ::: callout-tip -->
 
-## Practice
+<!-- ## Practice -->
 
-1.  Google "do_set R." What does Stack Overflow say?
+<!-- 1.  Google "do_set R." What does Stack Overflow say? -->
 
-2.  Define two objects, `a` and `b`, to be different numbers. Calculate:
+<!-- 2.  Define two objects, `a` and `b`, to be different numbers. Calculate: -->
 
-    -   $a + b$
+<!--     -   $a + b$ -->
 
-    -   $a ^2 + b^2$
+<!--     -   $a ^2 + b^2$ -->
 
-    -   $a^b$
+<!--     -   $a^b$ -->
 
-    -   $\frac{a-b}{a+b}$
+<!--     -   $\frac{a-b}{a+b}$ -->
 
-3.  You can store a new value in an existing object. (This will overwrite the old value.) Try this with the `a` above: `a <- a / a`. Now what is the value of `a`?
-:::
+<!-- 3.  You can store a new value in an existing object. (This will overwrite the old value.) Try this with the `a` you have defined above: `a <- a / a`. Now what is the value of `a`? -->
+
+<!-- ::: -->
 
 ## Vectors
 
@@ -220,9 +229,13 @@ rivers
 
 ```
 
-This is a type of dataset called a **vector**. A vector is any collection of similar items, observations or measurements in R, such as: the letters in the alphabet, salaries of bank managers, heights of students in a class, whole numbers between 1 and 100, the names of fruit at the grocery store.
+This type of data is called a **vector**. A vector is any collection of similar items, observations or measurements in R, such as: the letters in the alphabet, salaries of bank managers, heights of students in a class, whole numbers between 1 and 100, the names of trees.
 
-The bracketed row labels printed along the left-hand side of the output refer to the vector **index** of the first item in each row.^[Note that the length of the rows, and hence the row labels, will change depending on the width of your console.] What do we mean by index? An item's index is simply its position in the vector. For example, the `[1]` indicates the first item, and also serves as a row label. The row labels make it easy to refer to individual observations.^[The index position of observations within a vector are often referred to with subscripts. The item in the first position, 735, is $\text{river}_1$, while the item in the last position, 1770, is $\text{river}_{141}$. To refer abstractly to individual items within a vector the convention is to use $i$ for "index": $\text{river}_{i}$.]
+The bracketed row labels printed along the left-hand side of the output refer to the vector **index** of the first item in each row.[^5] What do we mean by index? An item's index is simply its position in the vector. For example, the `[1]` indicates the first item, and also serves as a row label. The row labels make it easy to refer to individual observations.[^6]
+
+[^5]: Note that the length of the rows, and hence the row labels, will change depending on the width of your console on your local machine.
+
+[^6]: We will often refer to the index of an observation within a vector using a subscript. The item in the first position, 735, is `rivers`$_1$, while the item in the last position, 1770, is `rivers`$_{141}$. To refer abstractly to individual items within a vector the convention is to use $i$ for "index": `rivers`$_{i}$.
 
 We can do arithmetic with vectors. For example, to add 1 to every item in `rivers` simply type `rivers + 1`:
 
@@ -238,12 +251,12 @@ rivers %% 2
 
 A remainder of 1 indicates that the river length is odd.
 
-These results illustrate an important fact: vector operations involving a single number are performed *element-wise* in R: 1 is added to each item, or the remainder is calculated after each item is divided by 2, and so forth.  These are called *scalar-vector* operations and can be represented abstractly like this:
+These results illustrate an important fact: vector arithmetic is performed *element-wise* in R. The operation of adding a number to a vector can be represented abstractly like this:
 
 $$ a + \begin{bmatrix}
 b \\
 c \\
-d 
+d
 \end{bmatrix} = \begin{bmatrix}
 a + b \\
 a + c \\
@@ -252,7 +265,7 @@ a + d
 
 where $a$ is a single number and $[b, c, d]$ is a vector.
 
-We can also do arithmetic with whole vectors.
+We can also do arithmetic with *entire* vectors.
 
 ```{r}
 rivers / rivers
@@ -260,119 +273,2144 @@ rivers / rivers
 
 Again, the calculation is done element-wise: each element of rivers has been divided by itself. We can represent this operation as:
 
-$$ \begin{bmatrix} a \\ b \\ c \end{bmatrix} \div \begin{bmatrix} a \\ b \\ c \end{bmatrix} = \begin{bmatrix} \frac{a}{a} = 1\\ \frac{b}{b} = 1\\ \frac{c}{c} =1 \end{bmatrix} $$
+$$ \begin{bmatrix} a \\ b \\ c \end{bmatrix} \div \begin{bmatrix} a \\ b \\ c \end{bmatrix} = \begin{bmatrix} \frac{a}{a} = 1\\ \frac{b}{b} = 1\\ \frac{c}{c} =1 \end{bmatrix} $$ One nuance is important to mention. I referred to a "single number" above. But even single numbers are vectors.[^7] *Vectors are the most basic data type in R.* This tells us something about the way vector arithmetic is working: the single number vector is being *recycled* for each element-wise operation.
 
-Of course, we need numbers to do this sort of of vector arithmetic. But, as noted above, a vector in R  does not need to be numbers.^[A distinction is helpful here.  In math a vector is a sequence of numbers.  In R a vector is a type of data structure.] Here is another dataset already included in R: the letters of the alphabet.
+[^7]: From R Language Definition, section [2.1.1 Vectors](https://cran.r-project.org/doc/manuals/r-release/R-lang.html#List-objects): "Single numbers, such as 4.2, and strings, such as 'four point two' are still vectors, of length 1; there are no more basic types. Vectors with length zero are possible (and useful)."
 
-```{r}
-letters
-```
+To understand recycling, consider how a 2 item vector would be added to a 3 item vector. The situation can be represented abstractly like this:
 
-Can we add 1 to this vector of letters?
+$$ \begin{bmatrix} a \\ b \end{bmatrix} + \begin{bmatrix} c \\ d \\ e \end{bmatrix}  $$
 
-```{r}
-#| error: true
-letters + 1
-```
+The output would be:
 
-We get an error, which is pretty self-explanatory. The addition operator does not work with non-numeric data.
+$$ \begin{bmatrix} a + c \\ b + d\\ a + e \end{bmatrix}$$
 
-::: callout-tip
+R would recycle the shorter vector and perform the calculation but with a warning: "longer object length is not a multiple of shorter object length."[^8] In this case the "b" element of the first vector gets used only once, whereas "a" is recycled and used twice.
 
-## Practice
+[^8]: Keep in mind that warnings are not errors! An error prevents code from running, whereas a warning simply makes you aware of a *potential* problem.
 
-1.  In `river` the lengths of rivers are recorded in miles. Convert river lengths to *kilometers* (1 mile = 1.60934 kilometers).
+<!-- Of course, we need numbers to do this sort of of vector arithmetic. But, as noted above, a vector in R  does not need to be numbers.^[A distinction is helpful here.  In math a vector is a sequence of numbers.  In R a vector is a type of data structure.] Here is another dataset already included in R: the letters of the alphabet. -->
 
-2.  Convert river lengths to *meters*.
+<!-- ```{r} -->
 
-3.  Solve:
+<!-- letters -->
 
-$$ 2 * \begin{bmatrix} 3 \\ 4 \\ 5 \end{bmatrix}$$
+<!-- ``` -->
 
-4.  Solve:
+<!-- Can we add 1 to this vector of letters? -->
 
-$$ \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} *  \begin{bmatrix} 4 \\ 5 \\ 6  \end{bmatrix}$$
+<!-- ```{r} -->
 
-5. In this R vector, $y$, what is $y_4$?
+<!-- #| error: true -->
 
-```{r include = F}
-y <- c(16, 25, 36, 49, 64)
+<!-- letters + 1 -->
 
-```
+<!-- ``` -->
 
-```{r}
-y
-```
+<!-- We get an error, which is pretty self-explanatory. The addition operator does not work with non-numeric data. -->
 
+<!-- ::: callout-tip -->
 
-:::
+<!-- ## Practice -->
+
+<!-- 1.  In `river` the lengths of rivers are recorded in miles. Convert river lengths to *kilometers* (1 mile = 1.60934 kilometers). -->
+
+<!-- 2.  Convert river lengths to *meters*. -->
+
+<!-- 3.  Suppose you have a vector, $a$, consisting in the values [1, 2]. What is 2 * $a$? -->
+
+<!-- 4.  In this R vector, $y$, what is $y_4$? -->
+
+<!-- ```{r include = F} -->
+
+<!-- y <- c(16, 25, 36, 49, 64) -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- y -->
+
+<!-- ``` -->
+
+<!-- 5. What would R output for $a$ + $b$ , where $a$ is the vector [1, 2] and $b$ is the vector [7, 8, 9, 10]?  -->
+
+<!-- 5. What would R output for $a$ + $b$ , where $a$ is the vector [1, 2, 3] and $b$ is the vector [7, 8, 9, 10]?  -->
+
+<!-- ::: -->
 
 ## Functions
 
-Let's visualize river lengths by creating a **histogram**.^[Recall that a histogram is just a frequency plot with the height of the bars indicating the number of observations in the interval represented by the bar. Here we use base R plotting to create the histogram. We will get to visualization using the ggplot package in a later lesson.]
+Let's visualize river lengths by creating a **histogram**.[^9]
+
+[^9]: Recall that a histogram is a frequency plot in which the height of the bars corresponds to the number of observations in the interval on the horizontal axis represented by the bar.
 
 ```{r}
 hist(rivers)
 ```
 
-This plot provides insight into the distribution of river lengths, showing that the majority of rivers  in North America are shorter than 1000 miles, with the most common length less than 500 miles. There is at least one extreme outlier---the Mississippi?--- on the right. 
+The plot will show up in the plot tab of the Files pane in the lower right quadrant of RStudio.
 
-`hist()` is an example of a R **function**.  It takes a vector of numbers as an **argument** (or input) and then prints the histogram.  Other functions produce output.  As an example, let's calculate median river length using the `median()` function. (This is known as "calling the function".)
+`hist()` is an example of a R **function**. It takes a vector of numbers as an **argument** and then (in this case) prints the histogram. The resulting plot provides insight into the distribution of river lengths, showing that the majority of rivers in North America are shorter than 1000 miles, with the most common length less than 500 miles. There is at least one extreme observation---the Mississippi?--- on the right.
+
+To see another function in action, let's calculate median river length using `median()`.[^10] (Using a function is also known as "calling a function". )
+
+[^10]: Recall that the median is the middle observation in the sorted data.
 
 ```{r}
 median(rivers)
 ```
 
-425 is the median, the middle observation in the sorted data.  
-
-In R, functions are often named exactly as you'd expect.  Here is how we calculate the mean:
+In R, functions are often named exactly as you'd expect. Here is how we calculate the mean:
 
 ```{r}
 mean(rivers)
 ```
 
-And we can replicate this result using other aptly named functions.  
+If we know the formula for the mean we can easily replicate this result using other aptly named functions.
 
 ```{r}
-sum(rivers)/length(rivers)
+sum(rivers) / length(rivers)
 ```
 
+-   `sum()` adds the values in a numeric vector.
+-   `length()` counts the number of items in a vector.
 
 ::: callout-note
-
 ## Detail
 
-Why does this code work? The formula for the sample mean, $\bar{x}$ (pronounced "x bar"), is: 
+Why does this code work? The formula for the sample mean, $\bar{x}$ (pronounced "x bar"), is:
 
 $$\bar{x}= \frac{1}{n}\sum_{i=1}^{n}x_{i}$$
 
-where $n$ is the total number of observations and $x_i$ represents each individual observation.  That funny E symbol is called the "summation symbol," indicating that all the observations, the $x_i$, should be added up, from $i=1$ to $n$. We talked about indexes earlier.  Same idea here.  The first $x$ observation would be $x_1$ but the individual observations can be abstractly represented as $x_i$. 
+where $n$ is the total number of observations and $x_i$ represents the index of each individual observation. That funny E symbol, called sigma or the summation symbol, indicates that all the observations, the $x_i$, should be summed up, from index position $i=1$ to $n$. The first $x$ observation would be indexed as $x_1$ but all the individual observations can be abstractly represented as $x_i$.
 
-`sum()` simply adds up the $x_i$, performing the work of the summation symbol, while `length()` calculates $n$.
+Calling the `sum()`function has the effect of adding up the $x_i$ values in the vector, the river lengths, performing the work of the summation symbol, while `length()` calculates $n$, the number of observations.
 :::
 
-Most functions have multiple arguments.  For example, `hist()` has an additional argument, `breaks`, that allows us to adjust the number of bins in the histogram.^[Note that the number of *bins* is not exactly the number of *bars* since some bins---defined by intervals on the horizontal axis---are empty.]
+Most functions have multiple arguments. For example, `hist()` has an additional argument, `breaks`, that allows us to adjust the number of bins in the histogram.[^11]
+
+[^11]: Note that the number of *bins* is not exactly the number of *bars* in this case since, as you can see, some bins---defined by intervals on the horizontal axis---are empty.
 
 ```{r}
 hist(rivers, breaks = 20)
 ```
 
-This plot gives us more detail, higher resolution.  
+This plot gives us more detail, higher resolution.
 
-But: how did `hist()` know the number of bins to use earlier, before we included the `breaks` argument? Functions in R include **default settings** for arguments. `hist()` was using the default for `breaks` until we explicitly set a value. In general, R has very good default settings---the mark of good software.
+But: how did `hist()` know the number of bins to use earlier, before we included the `breaks` argument explicitly? Functions in R include **default settings** for arguments. `hist()` was using the default for `breaks` until we explicitly set a value. In general, R has useful default settings---the mark of good software.
 
 How would we discover the arguments to a function, along with the default settings, in case we wanted to make adjustments?
 
 That is the next topic.
 
-::: callout-tip
+<!-- ::: callout-tip -->
 
-## Practice
+<!-- ## Practice -->
 
-1. Google "hist R" to learn more about this function, its arguments and default settings.
+<!-- 1. Google "hist R" to learn more about this function, its arguments and default settings. -->
+
+<!-- ::: -->
+
+## Getting Help in RStudio
+
+Type `?hist` in the console and press return.
+
+The `?` command opens the Help tab in the Files pane in RStudio's lower right quadrant and displays the help file for the function, with multiple sections. This information is very instructive. In the Usage section, for example, we can see that only one argument to the function, `x`, does not already have a defined default value indicated by the equals sign.
+
+![Help File for hist()](usage.png)
+
+This is why, incidentally, we could get away with the simple function call `hist(river)` above. Although we did not explicitly include the `breaks` argument, the function automatically defaulted to a method called "Sturges" for producing the number of bars.[^12] The default settings kicked in for all the other arguments also, the details of which are listed in the Arguments section.
+
+[^12]: What is that method exactly? I'm not sure, but if you look further down in the help file under Details there is a link with additional information.
+
+There are a lot of arguments to this function! In general, R functions are designed to be highly customizable--- the arguments offer fine-grained control over outputs---while also remaining user friendly with sensible defaults. Feel free to keep things simple and stick with the defaults for now.
+
+Note that function arguments are positional. For example, suppose we do not explicitly define the `breaks` argument to `hist()`, but simply supply a value in the second position:
+
+```{r}
+hist(rivers, 20)
+```
+
+This code works because R expects the `breaks` argument in the second position. Similarly `hist(rivers)` works without needing to specify `x = rivers` because the function expects the data argument in the first position. By contrast, this code will not work:
+
+```{r}
+#| error: true
+hist(20, rivers)
+```
+
+However, we can fix this error if we *name* the arguments. Naming overrides position in function calls.
+
+```{r}
+hist(breaks = 20, x = rivers)
+```
+
+One final point for now. All function help files in R include an Examples section with code illustrating how to use the function. You can click "Run examples" in most help files to bring up a document that displays code and results, or you can simply cut and paste that code into the console and run it by pressing Return.
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- 1. Type `?mean` in the console and press Return.  What are the default arguments to this function? -->
+
+<!-- 2. Think. How would including the argument `trim = .1` impact the calculation of a mean? -->
+
+<!-- 3. Run this code in the console:  `mean(.1, rivers)`. It produces an error. Why?  Does the error message make sense? -->
+
+<!-- 4. Consider the following vector: -->
+
+<!-- ```{r include = F} -->
+
+<!--  v <- c(1,2,3,NA) -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- v -->
+
+<!-- ``` -->
+
+<!-- In data analysis `NA` usually means "missing."  -->
+
+<!-- Calculating the mean of `v` produces the following output:   -->
+
+<!-- ```{r} -->
+
+<!-- mean(v) -->
+
+<!-- ``` -->
+
+<!-- How would you adapt this function call, based on the information in the help pages, to ignore the `NA` and calculate the mean of the non-missing items in the vector? -->
+
+<!-- 5. `?` works not only with functions.  Type `?rivers` in the console and press Return. -->
+
+<!-- ::: -->
+
+## Logical Vectors
+
+How many North American rivers are longer than 1000 miles? Here is code to answer that question:
+
+```{r}
+sum(rivers > 1000)
+```
+
+How is this working? First, let's examine what is happening within the parentheses:
+
+```{r}
+rivers > 1000
+```
+
+So far, we have worked with numeric and character vectors.[^13] This output is an example of a **logical vector**, created by a **logical condition** with the help of the **logical operator** `>`. The logical operator essentially asks a question about each item in `rivers`: is it greater than 1000? The question has a yes or no answer which R casts as a logical value: `TRUE` or `FALSE` (which can be abbreviated as `T` or `F`).
+
+[^13]: **Numeric vector**: \[1, 2, 3, ...\], where the items include the machine representation of any real number. **Character vector**: \["a," "b," "c," ...\], where the items are letters or words, or, indeed, any object contained within quotation marks. For example, this is also a character vector: \["1", "2", "3"\].
+
+Here is a list of the main **logical operators** in R that will produce logical values:
+
+-   `>`: greater than.
+-   `<`: less than.
+-   `==`: equal to.
+-   `!=`: not equal to.
+-   `>=`: greater than or equal to.
+-   `<=`: less than or equal to.
+-   `!x`: not x.
+-   `x | y`: x OR y.
+-   `x & y`: x AND y.
+
+Importantly, logical values in R have an unexpected but useful characteristic: `T` is treated as 1, `F` as 0. That is why the code above works: R sums up the `T`s in the logical vector produced by `rivers > 1000`. This characteristic---that logicals are numbers--- opens up an important strategy for extracting information from logical vectors using math functions.
+
+Example: are any rivers exactly 1000 miles long?
+
+```{r}
+sum(rivers == 1000)
+```
+
+As it turns out---surprisingly---one river is indeed exactly 1000 miles.
+
+Another example: what *proportion* of rivers are longer than 1000 miles?[^14]
+
+[^14]: Remember: A *proportion* is a fraction expressing the relative frequency of an event, and is scaled between 0 and 1. A *percentage* expresses the same information but is scaled between 0 and 100. To convert a proportion to a percentage simply multiply by 100.
+
+```{r}
+sum(rivers > 1000) / length(rivers)
+```
+
+Or, more simply:
+
+```{r}
+mean(rivers > 1000)
+```
+
+The mean of a logical vector is simply the proportion of Ts.
+
+How many rivers are longer than 2000 miles or less than 200?
+
+```{r}
+sum(rivers > 2000 | rivers < 200)
+```
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Using the `rivers` dataset: -->
+
+<!-- 1. How many rivers are longer than 1500 miles? -->
+
+<!-- 2. How many rivers are shorter than 100 miles? -->
+
+<!-- 3. How many rivers are above average in length?  -->
+
+<!-- 4. What proportion of rivers are above average in length? -->
+
+<!-- 5. What percentage of rivers are above average in length? -->
+
+<!-- 6. What percentage of rivers are longer than the median length? This should be right around 50%.  Why? Think about the definition of median. In sorted data with an odd number of observations it is the middle observation. For an even number of observations, it is a number that is midway between the two middle observations. -->
+
+<!-- ::: -->
+
+## Subsetting Vectors
+
+We have seen how to do calculations with logical vectors. We can also use them to **subset** or **filter** data. This is an extremely common and important task in data analysis.
+
+For example, earlier we calculated the *number* of rivers that are longer than 1000 miles. But what if we wanted to know the *lengths* of those rivers? This would involve, in effect, returning a subset of the data based on a logical condition: `rivers > 1000`. We will use **square bracket notation** for this task.
+
+Before getting into complicated subsetting, let's see how the square bracket notation works.
+
+```{r}
+rivers[1]
+```
+
+This code creates a subset of the data with only the first observation. The number in square brackets is the item's index, its position in the vector. Another example: `rivers[2]` creates a subset that includes only the observation in the second position.
+
+```{r}
+rivers[2]
+```
+
+Suppose we'd like to return a subset with more than one item. We could use the `c()` function to return the river lengths at indices 1 and 2.[^15] The "c" stands for "concatenate" because the function concatenates (or, more familiarly, combines) items into a vector.
+
+[^15]: "Indices" is just the plural of "index," the position of an item within a vector, which was discussed above.
+
+```{r}
+rivers[c(1, 2)]
+```
+
+Equivalently we could use "colon" notation, which is convenient when indexing a sequence of observations:
+
+```{r}
+rivers[1:2]
+```
+
+Suppose, instead, we wanted to retrieve the indices of observations based on a logical condition. We could use the `which()` function:
+
+```{r}
+which(rivers > 1000)
+```
+
+These are not observations from the data, but the *indices* of observations. To get the river lengths themselves we would then subset the data using those indices:
+
+```{r}
+rivers[which(rivers > 1000)]
+```
+
+These are the river lengths that satisfy the condition `rivers > 1000`.
+
+We can simplify this code, however, by using a logical vector directly to do the subsetting.
+
+```{r}
+rivers[rivers > 1000]
+```
+
+Same result. In the background R has used the logical vector produced by `rivers > 1000`---and in particular the index of each `TRUE`---to subset the data in exactly the way we did previously when we supplied the indices directly using `which()`.
+
+One last example. Which river lengths are greater than 2000 or less than 200?
+
+```{r}
+rivers[rivers > 2000 | rivers < 200]
+```
+
+If we wanted to count the number of observations in this subset we could use the `length()` function:
+
+```{r}
+length(rivers[rivers > 2000 | rivers < 200])
+```
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- 1. Select the first 10 observations in `river` using square brackets with colon notation. Now do the same subsetting using square brackets with the `c()` function.  Which method is easier? -->
+
+<!-- 2. Select the the first 10 observations in `river` and the 100th observation using square bracket notation. Use colon notation and the `c()` function together. -->
+
+<!-- Define a vector, $v$, as the squared elements of the sequence 1:10. -->
+
+<!-- ```{r} -->
+
+<!-- v <- 1:10 * 1:10 -->
+
+<!-- v  -->
+
+<!-- ``` -->
+
+<!-- 3. Write code to return the indices of the observations in $v$ greater than 50. (Also, think: why does `1:10 * 1:10` work to produce `v`?) -->
+
+<!-- 4. Use square bracket notation to subset $v$ to include only observations greater than 50. Use three different methods, supplying the indices: -->
+
+<!--     - by hand with either the `c()` function or colon notation. -->
+
+<!--     - with the `which()` function. -->
+
+<!--     - with a logical vector. -->
+
+<!-- 5. Write code to calculate how many river lengths in `rivers`  are greater than 2000 miles or less than 500.   -->
+
+<!-- ::: -->
+
+## Data Frames
+
+So far we have discussed vectors, which are one dimensional data structures consisting in a collection of observations. R includes several *two*-dimensional data structures also.
+
+**Matrices** are like vectors, in that the elements have the same data type (numeric, character, or logical), but with two dimensions: they have rows and columns.
+
+**Data frames** also have rows and columns, like matrices, but are more flexible, allowing different data types. For this reason data frames are probably the most used data structure in R for doing statistics and data analysis. They have the following characteristics:
+
+-   They are "square": all rows have the same number of columns, and all columns have the same number of rows.
+-   The columns are vectors. This means that the observations in each column all have the same data type: numeric, character or logical.\
+-   Each column can have a different data type.
+-   The rows are *not* vectors, due to the point above. If columns can have different data types then rows cannot be vectors. Rows in a data frame are in fact themselves data frames---single row data frames.
+
+These distinctions may all sound complicated but I think you'll find that working with data frames is pretty intuitive. In fact, you can think of a data frame as R's version of a spreadsheet.
+
+Let's look at an example data frame, `mtcars`, which contains information on cars from the 1970s.[^16] Here are some useful functions for exploring data frames:
+
+[^16]: Remember: type `?mtcars` in the console to get the help pages on this data set. Included there is a **data dictionary**: a collection of **metadata** about the dataset, with the name and description of each column, as well as its type and format. Metadata just means: data about the data.
+
+-   `head()`
+-   `summary()`
+-   `str()`
+
+The `head()` function displays the first 6 rows of the data (using the default `n = 6`).
+
+```{r}
+head(mtcars)
+```
+
+What appears to be the first column, with the names of the cars, is actually not a column. These are row names. (For what its worth, I almost never use row names, preferring instead to store row information explicitly in a column.)
+
+::: callout-note
+## Detail
+
+If you run `head(mtcars)` in Rstudio you will notice that each column in the snapshot includes a label with the data type listed as "dbl." (The label is left out in the HTML document you are reading.) "dbl" stands for "double," which stands for "double-precision floating-point number," a data type that can represent very large or very small fractional numbers with a high degree of accuracy. It typically uses 64 bits of memory to store a numerical value, which allows it to represent a much wider range of numbers than other data types that use fewer bits, roughly $10^{-308}$ to $10^{308}$. In R "dbl" is basically a synonym for "numeric."
+:::
+
+The `str()`function provides helpful information about the structure of a data frame. (The "str" stands for "structure.")
+
+```{r}
+str(mtcars)
+```
+
+This is a general function (it works also with vectors) that usefully displays the structure and dimensions of the data, summarizes the data type of each column, and prints the first 10 observations.
+
+The `summary()` function provides a **five number summary**[^17] of the columns.
+
+[^17]: The five number summary describes numeric data using five values: the minimum value, the first quartile (25th percentile), the median, the third quartile (75th percentile), and the maximum value. These provide a quick and easy way to understand the distribution and range of numeric columns in a dataset.
+
+```{r}
+summary(mtcars)
+```
+
+This function will produce different output for different kinds of data. For example, columns with character data will be summarized with a count of the total observations. Like `str()` the `summary()` function is a general function that works with vectors also.
+
+```{r}
+summary(rivers)
+```
+
+It is a good idea at the beginning of a project to use these three functions to inspect your data as a first step towards understanding it.
+
+Lastly, one of the amenities offered by RStudio is the Data Viewer[^18]---a spreadsheet-like interface for viewing and exploring data frames. To pull up the Data Viewer simply type `View()` in the console with the name of the data frame as an argument. For example, to open the Data Viewer for `mtcars` type `View(mtcars)` in the console.
+
+[^18]: Here is a detailed description of the [Data Viewer](https://support.posit.co/hc/en-us/articles/205175388-Using-the-Data-Viewer-in-the-RStudio-IDE).
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Investigate a built-in data frame: `longley`. -->
+
+<!-- 1. Type `?longley` to get information on the dataset. -->
+
+<!-- 2. View the first 6 rows. -->
+
+<!-- 3. Get an overview of the structure and dimensions of the data. -->
+
+<!-- 4. Get a five number summary of each column. -->
+
+<!-- 5. Open up the Data Viewer in Rstudio to see `longley` as a spreadsheet. -->
+
+<!-- ::: -->
+
+## Subsetting Data Frames
+
+Subsetting or filtering data frames is a common and important task.
+
+Previously we saw how to subset *vectors*. To return the first observation in the `rivers` dataset, for example, we would type `rivers[1]` in the console, placing that observation's index within square brackets. Or, to return all the river lengths greater than 1000 miles we would type `rivers[rivers > 1000]`. The condition specified within the square brackets evaluates as a logical vector. R uses the location of the TRUEs in that vector to index the observations.
+
+For vectors, then, we index in *one dimension*: `data[the observations we want]`.
+
+For data frames, we index in *two dimensions*: `data[the rows we want, the columns we want]`. The first slot within the square brackets, before the comma, specifies the *rows* to return, while the second specifies the *columns*. All the tactics you learned for vectors work also for data frames
+
+To demonstrate we'll use `mtcars`. As a reminder, here is snapshot of the data:
+
+```{r}
+head(mtcars)
+```
+
+Which observation is in row 1 of column 1? (This is `mpg` for the Mazda RX4.)
+
+```{r}
+mtcars[1, 1]
+```
+
+What are the first 5 observations in column 1? Use colon notation.
+
+```{r}
+mtcars[1:5, 1]
+
+```
+
+What are the first 5 observations in columns 1 and 3? Use colon notation along with the `c()` function.
+
+```{r}
+mtcars[1:5, c(1, 3)]
+
+```
+
+What are all the observations in row 1? Leave the column slot empty to select all columns.
+
+```{r}
+mtcars[1, ]
+```
+
+What are all observations for column 1? Leave the row slot empty to select all rows.
+
+```{r}
+mtcars[ , 1]
+```
+
+Notice the difference between these last two sets of results. The first column is a vector of mileage observations, while the first row is a data frame with columns containing information on the Mazda RX4. This is because, as discussed in the previous lesson, *a single column in a data frame is a vector, while a single row is a data frame.*
+
+To extract an individual column it is often convenient to use **dollar sign** notation, where the `$` stands for column:
+
+```{r}
+mtcars$mpg
+```
+
+Incidentally, we can accomplish the same task using the column name (in quotes) within square brackets.^[To select just the `mpg` column I used double quotation marks:  `mtcars[ , "mpg"]`.  But single quotation marks would have worked also.  In R single and double are interchangeable.]
+
+```{r}
+mtcars[ , "mpg"]
+```
+
+Often, we will want to use logical conditions to subset a data frame. The strategy is analogous to what we did earlier with vectors when we used logical operators to define the logical condition for keeping rows.
+
+Which cars have `mpg` greater than 30?
+
+```{r}
+mtcars[mtcars$mpg > 30, ]
+```
+
+What is `mpg` for the heaviest car? We'll use the `max()` function to pick out the maximum weight.
+
+```{r}
+mtcars[mtcars$wt == max(mtcars$wt), "mpg"]
+```
+
+What is `mpg` for the lightest car? We'll use the `min()` function to pick out the minimum weight.
+
+```{r}
+mtcars[mtcars$wt == min(mtcars$wt), "mpg"]
+```
+
+We can also subset a data frame based on *multiple* conditions using logical operators such as `&` or `|`.
+
+Which cars have `mpg` greater than 30 *or* `wt` less than 2?
+
+```{r}
+mtcars[mtcars$mpg > 30 | mtcars$wt < 2, ]
+```
+
+Which cars have `mpg` greater than 30 *and* `wt` less than 2?
+
+```{r}
+mtcars[mtcars$mpg > 30 & mtcars$wt < 2, ]
+```
+
+How many cars have both these characteristics? Of course, here we can just count the number of rows in the filtered data set. But in other situations we might want to write code to get this information. The `nrow()` function (standing for "number of rows") will do the counting for us.
+
+```{r}
+nrow(mtcars[mtcars$mpg > 30 & mtcars$wt < 2, ])
+```
+
+There are obviously a lot of possibilities for combining logical conditions to subset a data frame. Hopefully these examples give you some sense of how the process works. To master subsetting in R requires practice!
+
+<!-- ::: callout-note -->
+
+<!-- ## Tip -->
+
+<!-- Using `longley` write code to return: -->
+
+<!-- 1. The year with the highest GNP. -->
+
+<!-- 2. The year with the lowest GNP. -->
+
+<!-- 3. All rows when the number of unemployed was the smallest. -->
+
+<!-- 4. The year and the population when GDP was the largest or when unemployed was the largest. -->
+
+<!-- 5. The number of years that employed was greater than 65. -->
+
+<!-- ::: -->
+
+## Visualizing Data
+
+Plotting is a powerful way to understand relationships in data.
+
+Earlier we used `hist()` to create a frequency plot of river lengths. This plot choice was appropriate because `rivers` is one dimensional: we were examining the *distribution* of observations in the vector.
+
+```{r}
+hist(rivers)
+```
+
+Working with data frames allows us to explore data in two-dimensions, answering questions such as: is there a relationship between the weight of a car and its gas mileage? (Some of our subsetting in the previous lesson suggested this.) The `plot()` function in R will create a **scatterplot** used to display the relationship between two quantitative variables.
+
+::: callout-note
+## Detail
+
+What is a variable? We will use the term somewhat interchangeably with "column" and "data" to mean a set of observations contained in a data set. The meaning is different than in algebra where a variable is used to represent an unknown numeric value. In data analysis the term derives from the fact that observations *vary* within the data. For example, `mpg` and `wt` are characteristics that vary for every car in `mtcars`. If a variable is numeric, then we call it a **quantitative variable**. If, instead, the variable represents a type or category, where the data is divided into groups or categories with a limited number of possible values, then we call it a **categorical variable**. For example, survey respondents might be asked to rate their satisfaction with a particular service as "satisfied," "neutral" or "not satisfied." This rating would produce categorical data since satisfaction is organized into a limited number of categories. In `mtcars` the number of cylinders is an integer: 4, 6 or 8. But if we think of these numbers as essentially representing different engine *types*, then the data could plausibly be thought of as categorical. Decisions about how to represent information in the data are not always clear cut.
+:::
+
+Back to scatterplots. The data is plotted as a "scatter" of points on a coordinate grid, with the horizontal axis (or $x$-axis) representing one variable and the vertical axis (or $y$-axis) representing the other. The position of each point is determined by the $x$-$y$ coordinates of the two variables for a particular observation. Take the example of a car in `mtcars`. Each car has a `wt`-`mpg` pair. In a scatterplot showing the relationship between weight and mileage the points thus represent each car's `wt`-`mpg` pair. To create this scatterplot we use the `wt` and `mpg` vectors for the `x` and `y` arguments to `plot()`.[^19]
+
+[^19]: Note that by convention the phenomenon you want to explain or understand in a plot goes on the $y$-axis. Here it makes sense to put `mpg` on the $y$-axis because car weight can be thought of as explaining gas mileage. Weight is a cause, mileage the effect. It would be strange to explain car weight with gas mileage.
+
+```{r}
+plot(x = mtcars$wt, y = mtcars$mpg)
+```
+
+Plots should always be titled. We can add a title using the `main` argument:
+
+```{r}
+plot(mtcars$wt, mtcars$mpg, main = "Scatterplot of wt vs. mpg")
+```
+
+And yes, there definitely seems to be a generally negative relationship between weight and miles per gallon: as `wt` goes up, `mpg` goes down.
+
+What about the relationship between number of cylinders and gas mileage?
+
+```{r}
+plot(mtcars$cyl, mtcars$mpg, main = "Scatterplot of cyl vs. mpg")
+```
+
+This also shows a negative relationship: as `cyl` goes up, `mpg` goes down. This makes sense, since more cylinders use more gas. But there's something strange about this plot, in that the observations of `cyl` are overplotted, clustered at only 4, 6, or 8. In `mtcars` these data are numeric, consisting in counts of cylinders. But, as discussed above, we could think of the counts as essentially representing different engine *types*, in which case the data would be categorical. The go-to plot for comparing categorical and numeric data is the **boxplot**.[^20] It is better suited than a scatterplot for showing the distribution of numeric data at different levels of a categorical variable.
+
+[^20]: Check out the entry at Wikipedia to learn more about [boxplots](https://en.wikipedia.org/wiki/Box_plot). There is also an entry on [scatterplots](https://en.wikipedia.org/wiki/Scatter_plot).
+
+```{r}
+boxplot(formula = mpg ~ cyl, data = mtcars, main = "Boxplot of cyl vs. mpg")
+```
+
+The first argument to `boxplot()` uses the formula syntax that is common in R. The tilde (`~`) means "explained by." And rather than supplying the vectors of observations using dollar sign notation, as we did above when using `plot()`, we instead name the columns and identify the source with the `data` argument. (Remember, if you need help with the syntax: `?boxplot`.)
+
+The box represents the most frequent observations in the data, the middle 50%, extending from the first quartile to the third quartile.[^21] The bars, extending above and below the box, known as "whiskers," show the tails of the data up to 1.5 times the width of the box or, if smaller, the minimum/maximum in the data. The middle line is the median.
+
+[^21]: What are quartiles? Arrange the data from smallest to largest. The first quartile will be the observation that is 25% of the way through the data from the smallest to the largest, the second quartile (or median) and third quartile will be the observations that are, respectively, 50% and 75% of the way from the smallest to largest.
+
+The plot shows us that 4 cylinder cars have the greatest variability in mileage (this box is the widest), and that there is strong negative relationship between the number of cylinders and mileage: as `cyl` goes up, `mpg` goes down.
+
+The fact that the syntax for creating a scatterplot is different than for a boxplot illustrates one of the frustrations of base R plotting. Our next foray into plotting will use a different system known as `ggplot2`.
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Make sure to title your plots! -->
+
+<!-- Using `longley`: -->
+
+<!-- 1. Create a histogram of `Unemployed`. -->
+
+<!-- 2. Create a scatterplot showing the relationship between `Unemployed` and `GNP`. Describe the relationship. -->
+
+<!-- 3. Plot the relationship between `Population` and `Armed.Forces`, also with a scatterplot. Can you think of a possible  explanation for the pattern in the plot? -->
+
+<!-- 4. Would a boxplot work to show the relationship between `Year` and `Population`?  Why or why not? -->
+
+<!-- Let's work with another dataset in R, `iris`, which (the help pages tell us) "gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species." -->
+
+<!-- 5. Type `summary(iris)` in the console. Notice that the result is a 5 number summary for the numeric variables, and a count of observations at each level of `Species`, a categorical variable. -->
+
+<!-- 6. Is there a relationship between petal length and width? -->
+
+<!-- 7. Does the distribution of `Petal.Width` differ for species? Try to answer this questions with both a scatterplot and a boxplot.  Which plot type works better? -->
+
+<!-- ::: -->
+
+## Factors
+
+Factors are a special data type in R for representing categorical data. They look like character data --- text within quotation marks---but they are stored internally in R as numbers. Consider `Species` in the `iris` data set.
+
+```{r}
+str(iris)
+```
+
+Here the names of the species are in quotation marks (listed as the "levels" of the factor) but the observations themselves are numbers: 1, 1, 1 ....
+
+To understand how factors differ from character data, consider the difference between, say, a property's address and its type. Address is a unique identifier, one that could take on a potentially infinite number of possibilities. Non-repeating data like address is best represented as character data. By contrast, there are only a limited number of options for recording property type such as condo, apartment or single family home. Categorical data like this, in which all possible values fall into a relatively small number of categories, is best represented using factors.
+
+Create factors using the `factor()` function.
+
+```{r}
+factor(c("a","b","c"))
+```
+
+Numbers can also be made into factors.
+
+```{r}
+factor(c(3, 2, 1))
+```
+
+In these examples, R has chosen a default ordering of the factor (based on numeric and alphabetic priority). But we can change this using the `levels` argument:
+
+```{r}
+factor(c("a","b","c"), levels = c("c", "b", "a"))
+```
+
+We will come back to factors again in later lessons.
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Guests at an Airbnb rental are asked to fill out a survey.  The survey has a question  about the guest's level of satisfaction, with two possible answers: "satisfied" or "not satisfied."  The next question asks:  "Please explain your answer."  -->
+
+<!-- 1. What is the best data type for encoding answers to the first question?   -->
+
+<!-- 2. What is the best data type for the second question? -->
+
+<!-- ::: -->
+
+## The tapply() Function 
+
+Suppose you would like to find average miles per gallon for cars with different numbers of cylinders. Well, we could subset the data for each cylinder category and then calculate the mean, like this:
+
+```{r}
+mean(mtcars[mtcars$cyl == 4, "mpg"])
+
+mean(mtcars[mtcars$cyl == 6, "mpg"])
+
+mean(mtcars[mtcars$cyl == 8, "mpg"])
+```
+
+That works perfectly well, but we could also calculate the **conditional means** more compactly using the `tapply()` function. Observe:
+
+```{r}
+tapply(X = mtcars$mpg, INDEX = mtcars$cyl, FUN = mean)
+```
+
+How did this work? In English: split the vector `mtcars$mpg` into groups according to the unique values in `mtcars$cyl`, then "apply" the mean to each group. (Hence the name of the function: "tapply" stands for "table apply.") These are *conditional* means because they are conditional on the number of cylinders. (We could calculate an *unconditional mean* for miles per gallon with `mean(mtcars$mpg)`.)
+
+We can use any function in the `FUN` argument to `tapply()`, as long as it works with vectors. For example, how many cars have 4, 6, and cylinders, respectively? (For brevity we will omit the argument names.)
+
+```{r}
+tapply(mtcars$mpg, mtcars$cyl, length)
+```
+
+What is the standard deviation of `mpg` for different values of `cyl`? Use the `sd()`, the R function for calculating standard deviation.
+
+```{r}
+tapply(mtcars$mpg, mtcars$cyl, sd)
+```
+
+Median?
+
+```{r}
+tapply(mtcars$mpg, mtcars$cyl, median)
+```
+
+Note that this *would not* work:
+
+```{r}
+tapply(mtcars$mpg, mtcars$cyl, nrow)
+```
+
+Why not? `nrow()` counts the number of rows in a *data frame*, but `mtcars$mpg`---to which the function is being applied--- is a *vector*.
+
+The `tapply()` function is very efficient and should give you some sense of what is possible in R.
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Using the `iris` dataset: -->
+
+<!-- Calculate mean, median, and standard deviation for `Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width` by species.  (That is, you should find 3 summary statistics for each characteristic for each species.) -->
+
+<!-- ::: -->
+
+<!-- # RStudio Tools {.unnumbered} -->
+
+## R Scripts
+
+We've covered a lot of ground so far. Great job!
+
+Let's switch gears briefly and introduce some of the important tools available in RStudio.
+
+So far, you've been running commands in the console. This works fine up to a point. But you may have noticed that when you open a new RStudio session the code and results from the previous session have disappeared. As you get into more complicated work you might want to save your code. You can do this with an **R script**---a plain text file with the extension ".R" that contains R code. Script files can easily be saved, updated and shared.
+
+To create a script file in RStudio, go to the top menu and click File \>\>\> New File \>\>\> R Script. This will automatically bring up an untitled R script in the **Document pane**, the window immediately above the console in the upper left quadrant.
+
+![An R Script File](script_file.png)
+
+
+To run a line of code in the script, position the cursor on that line and press Control-Return.[^22] (This is similar to copying and pasting the code from the file and running it in the console.) Results will appear in the console.
+
+[^22]: Note that you can also run the code by clicking the Run button in the upper right menu immediately above the Document pane.
+
+To create a comment in the script use a hashtag (`#`). R will not attempt to execute any text after a hashtag.[^23]
+
+[^23]: Why should you make comments in a script file? Comments help a collaborator---or your future self!---understand your code. Ideally the code you write will be easy to read (that is one of the goals of these lessons) but it is best practice is to add comments to ensure interpretability.
+
+Try it. Create a script file using the directions above. Type the code below into your script, then position your cursor on the first line and press Control-Return twice.
+
+```{r}
+# A simple addition example
+2 + 2   
+```
+
+You should see `[1] 4` appear in the console. (Notice that the comment was indeed ignored by R.)
+
+That's it. You've created your first R script. Any code you'd like to save you can now write in a script rather than the console.
+
+How do you save the script? Click File \>\>\> Save As and use the dialogue box that comes up to name your file and save it to a folder on your computer.
+
+::: callout-note
+## Tip
+
+R scripts make it easy to share code through email. You could attach the script to an email message, of course, but you could also simply cut and paste the finished code into the body of the message.
+
+It is also easy to turn an R script into an HTML document by clicking on File \>\>\> Render Document. This works pretty well, but other document types, such as RMarkdown or Quarto, offer more control over formatting details. We will introduce these in later lessons.
+:::
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Create an R script file that you will use to do the lessons in this book. Title it and save it to a folder on your computer. -->
+
+<!-- ::: -->
+
+
+
+## R Packages
+
+So far we have been using functions that are automatically included in R. These functions are known as "base R." But the larger R language includes many, many functions contributed as external packages by the R community and stored on CRAN[^24] These extend R's functionality dramatically. Users can find packages implementing everything from cutting edge machine learning algorithms to routines for data wrangling and plotting. In the latter category is a collection of packages known as the "tidyverse."[^25] Later lessons will focus on two of the most useful: dplyr and ggplot2.
+
+[^24]: [Comprehensive R Archive Network](https://cran.r-project.org). See, specifically, the "Packages" menu item on the left.
+
+[^25]: See [tidyverse.org](https://tidyverse.tidyverse.org) for details.
+
+You must install a package before you can use it. This can be done using the `install.packages()` function, which downloads and installs the package.[^26] Once a package is installed you must use the `library()` function to load it into memory. This makes its functions available for use. This point bears repeating: *to use a package it must be loaded at the beginning of a session*. There is an exception to this rule that we will discuss in a moment.
+
+[^26]: You can also install packages using the top menu in RStudio: Tools \>\>\> Install Packages. This will bring up a dialog box that allows you to search for packages on CRAN. Select a package then click "Install."
+
+As an example, let's install the tidyverse. Most packages are installed one by one, but we can install all of the tidyverse packages at once with this command:
+
+```{r}
+#| eval: FALSE
+install.packages("tidyverse")
+```
+
+(Note that name of the package needs to be within quotation marks.)
+
+The main tidyverse packages include:
+
+-   ggplot2, for data visualization.
+-   dplyr, for data manipulation.
+-   tidyr, for data tidying.
+-   readr, for data import.
+-   purrr, for functional programming.
+-   tibble, for tibbles, a modern re-imagining of data frames.
+-   stringr, for strings.
+-   forcats, for factors.
+
+After installing the packages, use the `library()` function to load them into memory.
+
+```{r}
+#| messages: FALSE
+#| warnings: FALSE
+library(tidyverse)
+```
+
+Loading the tidyverse has produced some warnings about **naming conflicts**. The base R stats package has a function called `filter()` as does the dplyr package in the tidyverse. So, what happens when, after loading the tidyverse, you use the `filter()` function? The function in the most recently loaded package---`filter()` in dplyr--- will "mask" or overwrite the other function. This is formally known as a "name space conflict." Such conflicts can be very confusing since functions typically have different behaviors. One way of avoiding namespace conflicts (and the resulting confusion) is to simply append the source package name to the desired function with a double colon, like this: `dplyr::filter()` or `stats::filter()`.
+
+Incidentally, this way of calling function is not only more explicit; it also *eliminates the need to load the package at the beginning of a session*.
+
+## Reading and Writing Data
+
+So far we have been using data sets that are included in R, such as `rivers`, `mtcars`, and `iris`.[^27] At some point you will want to work with *external* data in R, which is most commonly stored in .csv format. (This is not a necessity: there are utility functions available in R for reading virtually any file format into memory.) To read a .csv file into memory as a data frame we'll use the `read.csv()` function. Let's cover several scenarios.
+
+[^27]: Note that many R packages include data sets within them for illustrating the use of the package's functions. For example, the dplyr package includes five built-in data sets for illustration: band_instruments, band_instruments2, band_members, starwars, storms.
+
+-   Download data from the internet.\
+-   Write data to a file on your computer.
+-   Read in data from a file on your computer.
+
+Downloading data from the internet is easy. Conveniently, the `file` argument in `read.csv()` will accept a URL.
+
+```{r}
+bikeshare <- read.csv(file ="https://raw.githubusercontent.com/jefftwebb/data/main/day.csv")
+
+str(bikeshare)
+```
+
+Comments:
+
+-   This data set is from one of the nation's first bike share programs in Washington DC. It records daily information on bike rentals for 2011 and 2012.
+-   The `read.csv()` function is doing the work of reading in the .csv file from the website and converting it to a data frame. Note that the `file` argument requires the URL to be within quotation marks.
+-   The data frame is then assigned to an object, `bikeshare`, that is stored temporarily in the **environment** or **workspace** for the current R session.[^28]
+
+[^28]: Previously we have described objects as being stored "in memory." This refers to the collection of objects---data frames, vectors, functions---that are available for use in the current R session. "Environment" and "workspace" are more formal terms for the objects in memory. The environment can be thought of as a kind of container that holds a set of symbols---that is, the names of objects--- and their corresponding values.
+
+Objects in the environment are not saved permanently. To understand why let's take a brief tour of the Environment pane, and specifically the environment tab, in the upper right quadrant in RStudio. Here RStudio provides functionality for managing and exploring the environment. For example:
+
+-   Click the blue button to the left of the data frame object to see the columns.
+
+![The Environment Pane](environment.png)
+
+-   Click the spreadsheet icon to the right of the data frame object to bring up the Viewer.
+
+-   Clear the environment by clicking the little broom icon at the top of window. You should do this periodically since a cluttered environment can lead to problems. (For example, if a file mistakenly gets renamed or overwritten you might find yourself working with the wrong data.)
+
+So, the environment is not the place to store data permanently. Instead, *to save data it is necessary to write it to a file*, using the `write.csv()` function.[^29] The `write.csv()` function has two main arguments:
+
+[^29]: We could, of course, use a different file format, but .csv is common and convenient.
+
+-   `x`: The data frame in the environment to be written as a .csv file.\
+-   `file`: The directory path culminating in the file name.
+
+```{r}
+#| eval: FALSE
+write.csv(x = bikeshare, file = "path/to/file")
+```
+
+::: callout-note
+## Detail
+
+Getting the path right for a given file turns out to be surprisingly tricky, since it requires that you understand the directory structure of your computer. Here is a quick primer.
+
+A directory is simply a folder. Directories can contain other directories as well as files. A directory *path* is the specific location in the hierarchy of directories on a computer. It indicates the sequence of directories that must be followed to reach it.
+
+On a Windows computer, the root directory of each drive is represented by a drive letter followed by a colon such as "C:" or "D:"). Each directory in the file system is represented by a name, and the names of directories are separated by a backslash (""). For example, the path"C:\Users\Username\Documents" specifies the location of the Documents directory within the Username directory, which is located within the Users directory, which is located on the C: drive.
+
+On a Mac, the Finder application is used to browse and manage directories. The root directory is represented by a forward slash ("/"). Each directory in the file system is represented by a name, and the names of directories are separated by forward slashes. For example, the path "/Users/Username/Documents" specifies the location of the Documents directory within the Username directory, which is located within the Users directory, which is the root directory.
+:::
+
+To load a .csv file into your workspace as a data frame use the `read.csv()` function. Rather than supplying a URL for the `file` argument (as we did earlier) simply specify the file's location on your computer using the path:
+
+```{r}
+#| eval: FALSE
+bikeshare <- read.csv(file = "path/to/file")
+```
+
+Let's say that you have downloaded a .csv file to your computer. By default that file will be located in the downloads folder. To load the file into your workspace, you would supply the path to your downloads folder with the name of the file.
+
+## The Working Directory
+
+Keeping paths straight can be confusing if documents are located in different locations. For example, you may have a script file in one location but a data file in another location. You can simplify things tremendously by creating a dedicated folder for a project, and then specifying that folder as the **working directory**. The working directory is simply R's default directory for reading and writing files.
+
+To find the current working directory in the RStudio interface look at the Files pane on the lower right quadrant. The folder displayed there is the working directory. (You can also use the `getwd()` function in the R console to print the path of the current working directory.) With the working directory set, you don't need to specify the path when reading or writing files, but just the file name:
+
+```{r}
+#| eval: FALSE
+
+write.csv(x = bikeshare, file = "file")
+
+bikeshare <- read.csv(file = "file")
+```
+
+Use the `setwd()` function in the R console to set the working directory.[^30]
+
+[^30]: The working directory can also be set in RStudio's File pane. With the desired folder showing, click More \>\>\> Set As Working Directory.
+
+## RStudio Projects
+
+As noted above, to keep your project work organized you should:
+
+1.  Create a dedicated folder for the project.
+2.  Set that folder as your working directory.
+
+You could do these things manually, but RStudio will also do them for you automatically when you create a **project**. An RStudio project is a working directory that contains the files associated with a particular analysis.[^31]
+
+[^31]: For more detail see [Using Projects](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects) at posit.com.
+
+To create a project in RStudio click on File \>\>\> New Project. (Alternatively, you can click in on the button in the upper right corner of RStudio and select New Project.) Follow the prompts to choose a location for the project on your computer and indicate whether you want to create a new directory for the project or use an existing directory. RStudio will then produce the necessary project structure (including the project folder for a new directory), and open the project. At this point you can add R script files, data files, and other resources. Importantly, the root project directory will automatically be set as the working directory.
+
+A project is like your desk at work: everything you need for a particular analysis is in a familiar location, and, when you return to work, is still right where you expect it. Rather than using one folder for multiple different analyses, use multiple projects, one for each analysis.
+
+<!-- ::: callout-tip -->
+
+<!-- ## Practice -->
+
+<!-- Create an R project in which you will store the R script file you created above. Note that in creating a project, Rstudio automatically creates a folder in the location of your choice. You may need to manually move your script file into your project folder.  -->
+
+<!-- ::: -->
+
+<!-- # Data Wrangling with dplyr {.unnumbered} -->
+
+## The dplyr Package
+
+Let's get back to R programming! Time to introduce the dplyr package in the tidyverse.
+
+dplyr (pronounced "dee-ply-r") consists in a set of tools for fast data wrangling---in effect, it provides pliers for manipulating data frames.[^32] In earlier lessons we saw how to use base R to subset and summarize data. Why do we need more tools? dplyr has an edge over base R in terms of:
+
+[^32]: It is worth emphasizing that dplyr was specifically designed to work with *data frames*, not other data structures.
+
+-   *Ease of use*. dplyr functions have an intuitive syntax.
+-   *Readability*. dplyr code is easy to understand, particularly when combined with pipes.
+-   *Performance*. The back end of dplyr is written in C++, making the performance blazingly fast, especially for large data sets.
+-   *Consistency*. dplyr functions use a consistent syntax and follow a similar set of conventions.
+
+<!-- ^[The syntax is often similar to SQL. From Wikipedia: "Structured Query Language, abbreviated as SQL and pronounced 'sequel,' is a domain-specific language used in programming and designed for managing data held in a relational database management system.  It is particularly useful in handling structured data, i.e. data incorporating relations among entities and variables."]  -->
+
+dplyr implements a "split-apply-combine" strategy for data analysis: "break up a big problem into manageable pieces, operate on each piece independently and then put all the pieces back together."[^33] To do that dplyr provides five core functions, or "verbs":
+
+[^33]: For more detail, see Hadley Wickham's original paper on this topic: "[The Split-Apply-Combine Strategy for Data Analysis](https://www.jstatsoft.org/article/view/v040i01)"
+
+1.  `filter()` subsets a data frame by rows, taking only certain rows as specified by logical criteria.
+2.  `arrange()` sorts a data frame by rows.
+3.  `select()` subsets by columns.
+4.  `mutate()` creates a new column.
+5.  `summarize()` creates a summary table.
+
+Importantly, these functions can be used in conjunction with another one, `group_by()`, which allows us to perform operations on data frames *within* groups, conditionally.
+
+dplyr includes a lot of complexity at this point. We will try to keep things simple in this introduction, focusing on typical uses that should suffice for most data wrangling tasks.^[A cheatsheet of functions is helpful. You can either create your own or browse the ones available at posit.com: the [dplyr cheatsheet](https://posit.co/resources/cheatsheets/) is about halfway down the page. These PDFs can be printed out and kept near your workstation for easy reference.]
+
+## Pipes
+
+Before getting into the dplyr verbs, let's introduce an important syntactic development in R programming: the **pipe operator**, `%>%`.[^34] Pipes make code easier to read and therefore improve collaboration. This is a stylistic innovation that substantively impacts productivity.
+
+[^34]: The pipe operator was introduced in the magrittr package in 2014.  Recently, a  pipe operator has been added to base R: `|>`. We will use the magrittr pipe in these lessons. For basic uses the two pipes function identically.
+
+Briefly:
+
+-   Traditionally R functions are "nested," a coding style that can be represented as `h(g(f(x)))`. Nested code runs just fine but is hard to read. In fact, the first function we encounter when reading, `h()`, is actually the last one to be executed; vice versa for `f()`: it is the first to be executed but the last in reading order.
+
+-   Pipes unpack this nested structure, representing a clear sequence of operations: `x %>% f() %>% g() %>% h()`. The pipe operator should be pronounced "and then." This code can be therefore be understood as a sequence: use `x` *and then* perform `f()` *and then* `g()` *and then* `h()`. The pipe passes the object on its left hand side to the first argument of the function on the right-hand side.
+
+Here is an example of nested syntax with `mtcars`:
+
+```{r}
+head(arrange(filter(mtcars, mpg > 25), wt), 5)
+```
+
+We haven't yet discussed the details of `filter()` and `arrange()` but the difficulties involved in reading traditional R syntax should be apparent. The operations are hard to parse due to the nested functions. The `head()` function is first in reading order but the last executed. In sequence the operations are:
+
+1.  Filter the data frame to include only rows where `mpg` is greater than 25.
+2.  Sort by `wt`.
+3.  Print the first 5 rows.
+
+Here is the above example rewritten with pipes.
+
+```{r}
+mtcars %>%
+     filter(mpg > 25) %>%
+     arrange(wt) %>%
+     head(5)
+```
+
+Same result, but the code is much easier to read and understand. We can now just scan down the verbs to see the operations in order.[^35] To reiterate the point above, the pipe passes the object on its left hand side to the *first* argument of the function on the right-hand side. For example, the first argument of `filter()` is the data argument. So, in the first line of this code chunk the pipe passes `mtcars` to the second line as the first argument in `filter().` And so forth.
+
+[^35]: In fairness, we should note that it is possible to represent the sequence of operations without pipes. But doing so requires the creation of named intermediate objects, which clutter the environment and require a lot of naming and typing. For example: first, assign the subsetted data frame to an object: `filtered_df <- filter(mtcars, mpg > 25)`; next, sort that data frame object, and assign the result to *another* object: `arranged_filtered_df <- arrange(filtered_df, wt)`; third, print the top rows of that object: `head(arrranged_filtered_df)`.
+
+We will be using pipes throughout the remainder of these lessons. 
+
+Key time saver: in RStudio the magrittr pipe can be inserted with a shortcut, by pressing shift-control-m.
+
+## Filter and Arrange
+
+The two main dplyr verbs for manipulating rows in a data frame are `filter()` and `arrange()`.
+
+Which cars have high `mpg`? Previously we used square bracket notation to answer this sort of a question:
+
+```{r}
+mtcars[mtcars$mpg > 25 , ]
+```
+
+Here is how we would perform the same operation with `filter()`:
+
+```{r}
+mtcars %>%
+     filter(mpg > 25)
+```
+
+Note that the same logical operators we used earlier with square bracket notation can also be passed to `filter()`.[^36]
+
+[^36]: See the list of logical operators in the lesson on logical vectors.
+
+::: callout-note
+## Tip
+
+Common mistakes with `filter()` include:
+
+1.  Forgetting about the double equals sign to express identity, `==`:
+
+```{r}
+#| error: true
+mtcars %>% 
+     filter(cyl = 4) %>%
+     head()
+```
+
+As the error message suggests, the code should be: `filter(cyl == 4)`.
+
+2.  Writing an "or" statement as in English:
+
+```{r}
+#| error: true
+mtcars %>% 
+     filter(cyl == 4 | 6) %>%
+     head()
+```
+
+This doesn't produce an error, but it also doesn't have the desired effect: the resulting data frame includes 8 cylinder cars. The code should be: `filter(cyl == 4 | cyl == 6)`.
+:::
+
+We can then pipe the filtered data frame into the `arrange()` function for sorting:
+
+```{r}
+mtcars %>%
+     filter(mpg > 25) %>%
+     arrange(wt)
+```
+
+`arrange()` preserves the integrity of the rows but changes their order based on the values in a specified column. By default, sorting is low to high. The sorting can be reversed with `desc()` (which stands for "descending"):
+
+```{r}
+mtcars %>%
+     filter(mpg > 25) %>%
+     arrange(desc(wt))
+```
+
+::: callout-note
+## Detail
+
+The consistent behaviors we have observed above for `filter()` and `arrange()` hold for all dplyr verbs:
+
+1.  The first argument is always a data frame.
+
+2.  The subsequent arguments describe what to do with the data frame, using the variable names.
+
+3.  The result is always a new data frame.
+:::
+
+## Select and Mutate
+
+The two main dplyr verbs for working with *columns* in a data frame are `select()` and `mutate()`.
+
+-   `select()` selects or renames columns in a data frame.[^37]
+-   `mutate()` creates a new column.
+
+[^37]: Sometimes data sets have hundreds or thousand of columns. In these situations, it can be essential to subset the data by selecting a subset of columns.
+
+```{r}
+mtcars %>%
+     mutate(hp_wt_ratio = hp/wt,
+            cyl = factor(cyl)) %>%
+     filter(mpg > 25) %>%
+     arrange(desc(wt)) %>%
+     select(miles_per_gallon = mpg, wt, hp, cyl, hp_wt_ratio)
+```
+
+In effect, this code chunk is a six-line program that wrangles the data into a new shape and prints the result.
+
+Code explanation:
+
+-   `mtcars %>%`: pipes the data from the first line into the first argument of the second line.
+-   `mutate(hp_wt_ratio = hp/wt,`: creates a new column named `hp_wt_ratio` that consists in the `hp` column divided by the `wt` column. Notice that we put each individual mutate operation on its own line separated by a comma.
+-   `cyl = factor(cyl) %>%`: factors `cyl`, overwriting the existing numeric variable, and then pipes the resulting data frame into the next line. Notice that this line includes the closing parenthesis for the `mutate()` function.
+-   `filter(mpg > 25) %>%`: filters the data frame to include only rows with `mpg` greater than 25 and pipes the resulting data frame into the next line.
+-   `arrange(desc(wt)) %>%`: sorts the rows of the data frame by `wt`, from high to low and pipes the resulting data frame into the next line.
+-   `select(miles_per_gallon = mpg, wt, hp, hp_wt_ratio)`: renames the `mpg` column to be `miles_per_gallon` then selects the renamed column along with `wt`, `hp`, `cyl`, `hp_wt_ratio`. (To select columns we simply include the names separated by commas.)
+
+A couple of things to note:
+
+-   The new data frame produced by this code chunk is being printed, not saved as an object in the environment. To save it, we would, of course, need to use the assignment operator.
+-   The new columns created with the `mutate()` function in the second and third lines is available for use in any subsequent line (even within the same `mutate()` call).
+
+::: callout-note
+## Detail
+
+The `select()` function offers lots of time-saving shortcuts for selecting columns. Observe:
+
+```{r}
+mtcars %>%
+     select(1:2) %>%
+     head()
+```
+
+```{r}
+mtcars %>%
+     select(mpg:hp) %>%
+     head()
+```
+
+See `?select` for more details.
+:::
+
+One last point. A very useful function to combine with `mutate()` is `ifelse()`. It can be used to transform data based on a logical condition---for example, to make a continuous variable into a binary variable, or to change the values of a categorical variable.[^38] It has the following syntax: `ifelse(logical condition, code to be executed if the condition is TRUE, code to be executed if the condition is FALSE)`.
+
+[^38]: While useful, the `ifelse()` function can become cumbersome if used to make multiple changes requiring *nested* `ifelse()` statements. At that point, another dplyr function, which we'll cover in detail later, works better: `case_when()`.
+
+As an example, let's create a binary version of the `wt` variable, which will take the following values: `above_avg` if the weight is above average, `below_avg` otherwise.
+
+```{r}
+mtcars %>%
+     mutate(binary_wt = ifelse(wt > mean(wt), "above_avg", "below_avg")) %>%
+     select(wt, binary_wt) %>%
+     head()
+```
+
+Looks good. Here is an explanation of the code:
+
+-   `mtcars %>%`: pipes the data from the first line into the first argument of the second line.
+-   `mutate(binary_wt = ifelse(wt > mean(wt), "above_avg", "below_avg")) %>%`: creates a new column in the data frame, `binary_wt`---the name, by the way, is arbitrary---based on this transformation logic: if observed `wt` in a given row is greater than average weight, then return a value of "above_avg," otherwise (that is, if `wt` is below average) return a value of "below average." The resulting data frame is then piped into the next line.
+-   `select(wt, binary_wt) %>%`: selects just two columns and pipes the resulting data frame to the next line.
+-   `head()`: filters the data frame to include just the first 6 lines.
+
+The last two lines --- the `select()` command and the `head()` command--- are included just for convenience, making it easier to see the result of the `mutate()`-`ifelse()` combination.
+
+::: callout-note
+## Detail
+
+Again, remember that we are not *saving* the result of the above code to an object, but simply printing it. How would we save it? Easy. Use the assignment operator to assign the new data frame to an object.
+
+```{r}
+mtcars %>%
+     mutate(binary_wt = ifelse(wt > mean(wt), "above_avg", "below_avg")) %>%
+     select(wt, binary_wt) %>%
+     head() -> mtcars_binary_wt 
+```
+
+We could have done the assignment in the first line, but putting it at the end makes more sense since the typical dplyr sequence is left-to-right and top-to-bottom.
+:::
+
+## Summarize and Group_by
+
+Creating **summary tables** is an essential step in any analytics project.[^39] Such tables provide an overview of the data's structure and content, with information such as:
+
+[^39]: This step is part of **exploratory data analysis** or **EDA**. It involves summarizing and visualizing data to understand its main characteristics, to highlight trends and patterns, and to identify anomalies and relationships. It is a way to get familiar with the data prior to formal modeling.
+
+-   The dimensions of the data set---number of rows and columns.
+-   The data types of the variables.
+-   The range or distribution of values for each variable.
+-   Missing or unusual values.
+-   Summary statistics such as mean, median, and standard deviation for each numeric variable.
+-   Counts and percentages for categorical variables.
+
+In earlier lessons we presented a couple of built-in methods for summarizing data frames: `str()` and `summary()`. And we also saw how to flexibly extract summary information from a data frame, conditional on levels of a categorical grouping variable, using base R's `tapply()` function:
+
+```{r}
+tapply(X = mtcars$mpg, INDEX = mtcars$cyl, FUN = mean)
+```
+
+The return value is a vector of average `mpg` for each level of `cyl`.
+
+The `tapply()` function is useful but has the limitation of accepting only one summary function at a time. What if we would like to calculate median `mpg` and the standard deviation of `mpg` at the same time? Can't do it.
+
+Let's rewrite the `tapply()` code using dplyr's `summarize()` function. Note that in dplyr `group_by()` performs the work of the `Index` argument in `tapply()`:
+
+```{r}
+
+mtcars %>%
+     group_by(cyl) %>%
+     summarize(avg = mean(mpg))
+```
+
+The return value here is a data frame with a row for each level of the grouping variable.^[This data frame is technically a "tibble," a special type of data frame used by the tidyverse.  The main difference is in the way a tibble prints to the screen---it will show the first few rows and only the columns that fit on one screen.] The two columns correspond to the grouping variable and the defined summary statistic. (In the latter case the name of the column comes from the arbitrary name we used within the `summarize()` function.) We can easily add information to this table by defining more summary statistics, with one per line, and lines separated by commas:
+
+```{r}
+mtcars %>%
+     group_by(cyl) %>%
+     summarize(avg = mean(mpg),
+               median = median(mpg),
+               sd = sd(mpg),
+               n = n()) %>%
+     round(digits = 2)
+```
+
+There is are two new functions here:
+
+-   `n()` does the work of `nrow()` from base R. It simply counts the number of observations. It is best practice to include a count of observations in a summary table.
+-   `round()` rounds the elements of a numeric table to the specified number of digits. This is also best practice for a summary table---precision beyond two decimal places is not usually needed.
+
+Here is an explanation of the code:
+
+-   `mtcars %>%`: pipes the data frame from the first line into the first argument of the second line.
+-   `group_by(cyl) %>%`: groups the data frame by the levels in `cyl` and pipes it to the next line.
+-   `summarize(avg = mean(mpg),`: defines the first summary statistic, the mean of `mpg` within each `cyl` level, the result of which is titled `avg`. This line ends with a comma, indicating that there are more summary statistics to come in this call to `summarize()`.
+-   `median = median(mpg)`: defines another summary statistic as the median of `mpg` within each level, creatively titled `median.`
+-   `sd = sd(mpg)`: defines another summary statistic as the standard deviation of `mpg` within each level.
+-   `n = n()`: defines another summary statistic as the number of observations within each level of `cyl`. This line includes the closing parenthesis for this call to `summarize()`.
+-   `round(digits = 2)`: rounds all the elements of a table to two decimal places.
+
+Pretty cool!
+
+::: callout-note
+## Tip
+
+The `count()` function offers a shortcut for creating a table of counts.  The method from above used `group_by()` and `summarize(n = n())`:
+
+```{r}
+mtcars %>%
+     group_by(cyl) %>%
+     summarize(n = n())
+
+```
+
+`count()` combines the two, and automatically supplies a column entitled `n`: 
+
+```{r}
+mtcars %>%
+     count(cyl)
+
+```
+The upside of `count()` is less typing; the downside is having to remember another function. 
+:::
+
+
+The combination of `group_by()` and `summarize()` is an amazingly powerful and flexible programming construct.^[Of course, `group_by()` can also be combined with the other dplyr verbs to great advantage.] For example, it is straightforward to add more information to the above table by including more grouping variables and more summary statistics:
+
+```{r}
+#| message: false
+#| warning: false
+mtcars %>%
+     group_by(cyl, gear) %>%
+     summarize(avg = mean(mpg),
+               median = median(mpg),
+               sd = sd(mpg),
+               min = min(mpg),
+               max = max(mpg),
+               n = n()) %>%
+     round(2)
+```
+
+Each row in this summary table represents the unique combinations of the levels in `cyl` and `gear`. Notice that the `sd` column includes `NA`s for the rows with just one observation---cars with 4 cylinders and 3 gears or 6 cylinders and 5 gears. This is because standard deviation is a measure of spread and can't be computed for just one observation.
+
+::: callout-note
+## Tip
+
+It is important to understand that a table created with `summarize()` and `group_by()` includes grouping information in its metadata. To perform an operation on the *entire table* you first need to remove the grouping structure with the `ungroup()` command. For example, suppose you want to add a column showing the percentage of observations in each row out of the total number of rows. Use a `mutate()` command following `summarize()`---this would add a new column to the summary table---but first ungroup the table:
+
+```{r}
+#| message: false
+#| warning: false
+mtcars %>%
+     group_by(cyl, gear) %>%
+     summarize(avg = mean(mpg),
+               median = median(mpg),
+               sd = sd(mpg),
+               min = min(mpg),
+               max = max(mpg),
+               n = n()) %>%
+     ungroup() %>%
+     mutate(percent = n / sum(n) * 100) %>%
+     round(2)
+```
+
+The `ungroup()` command allows `sum(n)` to add up the entire `n` column and ensures that the new `percent` column adds up to 100.
+:::
+
+Of course, we could also use `summarize()` *without* `group_by()` to compute summary statistics for the entire data set:
+
+```{r}
+mtcars %>%
+     summarize(avg = mean(mpg),
+               median = median(mpg),
+               sd = sd(mpg),
+               min = min(mpg),
+               max = max(mpg),
+               n = n()) %>%
+     round(2)
+```
+
+
+<!-- # Visualization with ggplot {.unnumbered} -->
+
+## The ggplot2 Package
+
+The ggplot2 package is a fantastic visualization package for exploring data and communicating insights. Developed in R by Hadley Wickham, it is an implementation of Leland Wilkinson's Grammar of Graphics (as described in a 1999 book of that title), a general framework for data visualization that breaks up plots into semantic components. Thinking about graphics in terms of components makes it easier to design and customize visualizations. The ggplot package construes these components as "layers" to be added incrementally to a plot.  These include (among others):
+
+- The blank canvas.
+- Aesthetic mappings.
+- The plot type.
+- Plot labels.
+
+Each ggplot visualization starts with a blank canvas created by the  `ggplot()` function. 
+The first argument to `ggplot()` is the `data` argument, where we specify a source data frame. (Like dplyr, ggplot2 is designed to work with data frames.)  
+
+```{r}
+ggplot(data = mtcars)
+```
+
+This is the blank canvas. 
+
+Now we now add "layers"---additional plot components---starting with mapping from the variables in the data to the visual and aesthetic properties of the plot. This is accomplished with the `mapping` argument to `ggplot()`, which always uses the `aes()` function ("aes" stands for "aesthetic"). 
+
+The syntax goes:  `ggplot(data = ..., mapping = aes(...))`.
+
+Within `aes()` we specify which variable goes on the $x$-axis (horizontal axis), which goes on the $y$-axis (vertical axis), and which variables (if any) will be used to show relationships in additional dimensions. For example, let's recreate the base R scatterplot from an earlier lesson and show the relationship between `wt` and `mpg`. The guiding question is whether the weight of a car affects miles per gallon.
+
+
+```{r}
+ggplot(data = mtcars,
+       mapping = aes(x = wt, y = mpg))
+```
+
+The `mapping` argument has added a layer with labeled axes and labeled tick marks, which show numeric ranges derived from the data. 
+
+The next layer is the plot type.  What sort of plot should this be?  Well, both `wt` and `mpg` are numeric, so a natural choice would be a scatterplot in which each point is determined by its $x$-$y$ or, in this case, `wt`-`mpg` coordinates. 
+
+In ggplot, plot types are called "geoms" (pronounced "gee-omes")--- geometrical objects that a plot uses to represent data. There are lots of geoms; here are some of the common ones:
+
+- `geom_point()`:  a scatterplot.
+- `geom_histogram()`: a histogram.
+- `geom_boxplot()`: a boxplot.
+- `geom_bar()`: a bar plot.
+- `geom_col()`: a bar plot.
+
+And there are others. Basically any plot you can think of (and many you probably haven't heard of---violin plots? heat maps?) can be created with ggplot geoms.
+
+To add plot layers after `ggplot()` we use a `+` rather than a pipe.^[Mistakenly using a pipe rather than a `+` is very common error.  Beware!] Here is how we add a scatterplot to this canvas:
+
+```{r}
+ggplot(data = mtcars,
+       mapping = aes(x = wt, y = mpg)) +
+     geom_point()
+```
+
+Nice! Aesthetic differences aside, this plot is the same as the one we created in an earlier lesson with base R's `plot()` function, showing a negative relationship between `wt` and `mpg`.
+
+We should always include a title for a plot.  To do so in ggplot, simply create another layer using the `labs()` function ("labs" stands for "labels") with the `title` argument specified.^[The `labs()` function can also be used to add a subtitle (`subtitle = "..."`), or to change the $x$- or $y$-axis labels (`x = "...", y = "..."`).] The title needs to be in quotes.
+
+```{r}
+ggplot(data = mtcars,
+       mapping = aes(x = wt, y = mpg)) +
+     geom_point() +
+     labs(title = "Scatterplot of wt vs. mpg")
+```
+
+Suppose we'd like to represent a *third* dimension on the plot---say, the relationship between `wt`, `mpg` *and* `cyl`? One way to do this would be to color the points by number of cylinders.  This is easy to do in ggplot.  The mapping ---`cyl` to color--- is defined within the `aes()` function with the `color` argument.  ggplot handles the plotting details for you, including automatically creating a legend for `cyl` in the right hand margin!
+
+
+```{r}
+ggplot(data = mtcars,
+       mapping = aes(x = wt, y = mpg, color = cyl)) +
+     geom_point() +
+     labs(title = "Scatterplot of wt vs. mpg  by cyl")
+```
+
+Has something has gone wrong here?  Yes. The legend shows cylinder numbers that don't exist in the data.  The problem is that `cyl` is properly a categorical variable but is encoded in mtcars as an integer. As as consequence, ggplot misunderstands it as a continuous variable.  So, the plot works---there is no error---but not as intended. Changes in `cyl` are represented by *gradations* of color rather than the expected *differences* in color suited for a categorical variable.^[In ggplot differences in a continuous variable are represented by changes in hue---the default is gradations of blue---whereas differences in a categorical variable are represented by discrete changes in color---default red/green/blue.]  We need to recode `cyl`.
+
+We could change `cyl` on the fly within `ggplot()` using the `factor()` function. This is a quick and dirty fix:
+
+```{r}
+ggplot(data = mtcars,
+       mapping = aes(x = wt, y = mpg, color = factor(cyl))) +
+     geom_point() +
+     labs(title = "Scatterplot of wt vs. mpg  by cyl")
+```
+
+This one small change produces the desired plot, but the legend title on the right is inelegant and potentially confusing.
+
+Another approach would be combine dplyr and ggplot, using `mutate()` to make the needed changes to `cyl` and then piping the resulting data frame into `ggplot()`.  
+
+
+```{r}
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = wt, y = mpg, color = cyl)) +
+     geom_point() +
+     labs(title = "Scatterplot of wt vs. mpg  by cyl")
+```
+
+Now the legend is appropriately titled.  Combining dplyr and ggplot in this way will be a frequent strategy for us.
+
+Here is an explanation of the code: 
+
+-   `mtcars %>%`: pipes the data frame from the first line into the first argument of the second line.
+-   `mutate(cyl = factor(cyl)) %>%`: recodes the existing integer-valued `cyl` variable as a factor (overwriting the original variable) and pipes the new data frame to the next line. Note that we are not saving this new data frame but simply creating it temporarily for the visualization.
+-   `ggplot(mapping = aes(x = wt, y = mpg, color = cyl)) +`: creates the blank canvas for plot and sets up the next ggplot layer with `+`. We can omit the data argument to `ggplot()` since that is being piped in from the dplyr portion of the code chunk above.  Remember to switch from a pipe to a `+`!
+-   `geom_point() +`: creates a scatterplot and sets up the next layer.
+-   `labs(title = "Scatterplot of wt vs. mpg  by cyl")`: uses the `title` argument to the `labs()` function to add a plot title.
+
+These are the basics.  We will cover additional plot components in the context of introducing additional geoms.
+
+## Histogram and Density Plots
+
+A histogram, as we saw in an earlier lesson, is a frequency plot in which the $y$-axis is a count of the observations in a "bin" defined by an interval on the $x$-axis, and represented by the bars in the plot.  We call this the **distribution** of the variable. It is helpful to look at the distribution to see whether, for example, there are any natural groupings in the data.
+
+Because a histogram does not show a relationship, there is no $y$ argument. By default, the $y$-axis in a histogram is a count.
+
+```{r}
+#| message: false
+ggplot(data = mtcars,
+       mapping = aes(x = mpg)) +
+     geom_histogram() +
+     labs(title = "Histogram of mpg")
+```
+
+ggplot will automatically pick the number of bins based on the data. We can adjust that number manually within the `geom_histogram()` function with the `bins` argument.^[You might ask:  why does the `bins` argument go within `geom_histogram()` rather than `ggplot()`?  Because the number of bins is not part of the blank canvas but is rather an instruction for how to draw the plot.]
+
+```{r}
+#| message: false
+ggplot(data = mtcars,
+       mapping = aes(x = mpg)) +
+     geom_histogram(bins = 10) +
+     labs(title = "Histogram of mpg")
+```
+
+As you can see, the fewer the bins the lower resolution. You must use your judgment to pick the resolution that best communicates an insight. In this case both plots show the same thing: a modest right skew to the data, with the majority of the observations centered about 15 miles per gallon. However, a few cars are quite a bit higher---above 30.   This could be something to explore further.
+
+A density plot is essentially a smoothed version of a histogram.^[In a density plot the vertical axis is not a count but a density---technically, a probability density over an interval on the $x$-axis. A thorough explanation of the difference is beyond the scope of these lessons on ggplot. But for most applications it suffices to think of a density plot as a smoothed histogram. ]  Use `geom_density()`:
+
+```{r}
+#| message: false
+ggplot(data = mtcars,
+       mapping = aes(x = mpg)) +
+     geom_density() +
+     labs(title = "Density plot of mpg")
+```
+
+As you can see, this density plot shows the same pattern as the histogram.
+
+One of the advantages of using a density plot is that we can draw separate lines for subgroups using the `color` argument. For this plot to work, as for the scatterplot in the previous lesson, `cyl` needs to be categorical.  We'll use use dplyr to make the change, then pipe the new data frame into ggplot.
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = mpg, color = cyl)) +
+     geom_density() +
+     labs(title = "Density plot of mpg by cyl")
+```
+
+Clearly miles per gallon is strongly related to number of cylinders. The curves shift to the left as we go from 4 to 6 to 8 cylinders.  Note that this same visualization strategy ---coloring by groups---does not tend to work as well with histograms since the bars are often superimposed. Compare the density plot above with this plot:
+
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = mpg, fill = cyl)) +
+     geom_histogram() +
+     labs(title = "Histogram of mpg by cyl")
+```
+
+Hard to read.  
+
+Notice that we used the `fill` argument above rather than  `color` because here we are "filling" bars.  The `color` argument is reserved for lines. The arguments  both have the same purpose---to add a third dimension to a plot---but which one you use depends on the type of plot---whether you are coloring lines or bars.
+
+## Facets
+
+To show patterns in data it can be helpful to use  a **small multiples plot**.^[See [small multiples](https://en.wikipedia.org/wiki/Small_multiple) at Wikipedia for a definition and some examples.] The idea is to split the data into groups represented on small plots with the same axes and scale for comparison.  For example, rather than combining all the cylinder groups in a single histogram, as above, we could create *separate* histograms. This would eliminate messy overplotting.
+
+The ggplot `facet_wrap()` function will make a small multiples plot.  
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = mpg)) +
+     geom_histogram() +
+     facet_wrap(facets = ~cyl) +
+     labs(title = "Histogram of mpg by cyl")
+```
+
+
+The first argument to `facet_wrap()` is `facets` where we use a tilde (`~`) to identify the categorical variable  that will define the different plots.^[Note that this code would also work: `facet_wrap(facets = "cyl")`. In this case you need to put the grouping variable in quotes. ]  This is called "faceting." The code above, `facet_wrap(facet = ~cyl)`, can be read as:  facet the histogram by `cyl`.
+
+We need to be strategic in how we orient the facets.  The default horizontal orientation is good for comparing the height of the bars.  But in this case it might be more useful to compare the groups by `mpg`, in which case a vertical orientation would work better, making $x$-axis differences more apparent. We can override the default by explicitly setting the `ncol` argument in `facet_wrap()` to 1 ("ncol" stands for "number of columns"). This will produce three plots in one column.
+
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = mpg)) +
+     geom_histogram() +
+     facet_wrap(facet = ~cyl, ncol = 1) +
+     labs(title = "Histogram of mpg by cyl")
+```
+
+This provides a much clearer view of how the groups differ by `mpg`.
+
+One thing you may have noticed in these lessons on ggplot is that the process of making plots is iterative and interactive: we start by creating a basic visualization and then tweak it to make improvements in order to better tell a story.  This requires judgment and creativity.  
+
+
+## Boxplot
+
+A boxplot shows the relationship between a categorical variable on the $x$-axis and a numeric variable on the $y$-axis. 
+
+```{r}
+#| warning: false
+#| message: false
+ggplot(data = mtcars,
+       mapping = aes(x = cyl, y = mpg)) +
+     geom_boxplot() +
+     labs(title = "Boxplot of cyl vs. mpg")
+```
+
+Whoops!  There should be three boxplots---one each for 4, 6 and 8 cylinder vehicles. 
+
+We again need to recode `cyl` as a factor variable; ggplot is misunderstanding it as continuous. 
+
+```{r}
+
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = cyl, y = mpg)) +
+     geom_boxplot() +
+     labs(title = "Boxplot of cyl vs. mpg")
+```
+
+That's better. 
+
+Think of boxplots as simplified histograms lying on their sides, with the box representing the central 50% of the frequency distribution---often involving the tallest middle bars in the histogram--- between the first and third quartiles of the data.^[For more details, see the discussion of boxplots in the earlier lesson, "Visualizing Data."] 
+
+## Bar Plot
+
+Bar plots are great for showing differences between groups. Of course, histograms are also a type of bar plot---but for continuous variables. Bar plots are for  categorical variables.  
+
+There are two geoms in ggplot that will create bar plots:
+
+- `geom_bar()` makes the height of the bar proportional to the number of cases at each level of a categorical variable.
+- `geom_col()` derives the height of the bar from the source data, which can be a summary table.  For this reason, `geom_col()` works well in conjunction with tables created using dplyr.
+
+Here is a bar plot showing the number of observations at each level of `cyl`:
+
+```{r}
+mtcars %>%
+     mutate(cyl = factor(cyl)) %>%
+     ggplot(mapping = aes(x = cyl)) +
+     geom_bar() +
+     labs(title = "Bar plot of cyl")
+```
+Admittedly, this is not very insightful.  A summary table might have worked just as well to convey this information:
+
+```{r}
+mtcars %>%
+     count(cyl)
+```
+
+The more flexible geom for creating a bar plot is `geom_col()` because it allows us to visualize calculated numbers from a summary table---for example: a mean, a median or, indeed, even a count, among others. Here is the same bar plot from above rewritten using `geom_col()` and the table of counts:
+
+```{r}
+mtcars %>%
+     count(cyl) %>%
+     ggplot(mapping = aes(x = cyl, y = n)) +
+     geom_col() +
+     labs(title = "Bar plot of cyl")
+```
+
+How about average `mpg` by `cyl`?  First, create the summary table:
+
+```{r}
+mtcars %>%
+     group_by(cyl) %>%
+     summarize(avg_mpg = mean(mpg)) 
+```
+Now pipe this table in `geom_col()`, using the titles of these columns for the plot, with `cyl` on the $x$-axis and the new variable, `avg_mpg`, on the $y$-axis.
+
+```{r}
+mtcars %>%
+     group_by(cyl) %>%
+     summarize(avg_mpg = mean(mpg)) %>%
+     ggplot(mapping = aes(x = cyl, y = avg_mpg)) +
+     geom_col() +
+     labs(title = "Bar plot of average mpg by cyl")
+```
+
+Is this better than just summarizing the averages in the table or even just listing them in a sentence? Maybe. It depends on the audience. But as the data gets more complicated, visualizations with bar plots allow us to see relationships and differences that aren't obvious in a summary table. For example, does `mpg` differ by `cyl` *and* `gear`? 
+
+First, create the underlying summary table:
+
+```{r}
+#| message: false
+mtcars %>%
+     group_by(cyl, gear) %>%
+     summarize(avg_mpg = mean(mpg))
+```
+
+This table is too complicated to scan the numbers and pick out a pattern. So, pipe the table into ggplot!  We will use the `fill` argument for `gear`, the third dimension variable, since the color should "fill" the bars.
+
+```{r}
+#| message: false
+mtcars %>%
+     group_by(cyl, gear) %>%
+     summarize(avg_mpg = mean(mpg)) %>%
+     ggplot(mapping = aes(x = cyl, y = avg_mpg, fill = gear)) +
+     geom_col() +
+     labs(title = "Bar plot of average mpg by cyl and gear")
+```
+This doesn't look right.  We need to factor the categorical variables.  
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(gear = factor(gear),
+            cyl = factor(cyl)) %>%
+     group_by(cyl, gear) %>%
+     summarize(avg_mpg = mean(mpg)) %>%
+     ggplot(mapping = aes(x = cyl, y = avg_mpg, fill = gear)) +
+     geom_col() +
+     labs(title = "Bar plot of average mpg by cyl and gear")
+```
+
+This is hard to read for the same reason pie charts are hard to read: our visual systems are better at picking out differences in length than in area.^[For more information on visual channels (and visualization generally) see Tamara Munzer's comprehensive book, *Visualization Analysis and Design*, in particular chapter 5: "Marks and Chanels."  The book's [website](https://www.cs.ubc.ca/~tmm/vadbook/) includes links to videos on each of the chapters. I should also mention, in this vein, that Kieran Healey's book, *Data Visualization: A practical introduction*, is superb on visualization in R. ] The plot would work better with the bars side by side for comparison.  This is called a "dodged bar plot." Use the `position = "dodge"` argument to `geom_col()`.
+
+```{r}
+#| message: false
+mtcars %>%
+     mutate(gear = factor(gear),
+            cyl = factor(cyl)) %>%
+     group_by(cyl, gear) %>%
+     summarize(avg_mpg = mean(mpg)) %>%
+     ggplot(mapping = aes(x = cyl, y = avg_mpg, fill = gear)) +
+     geom_col(position = "dodge") +
+     labs(title = "Bar plot of average mpg by cyl and gear")
+```
+
+Much better! The plot gives us insight into a pattern that was invisible in the summary table. The number of gears has little to no influence on miles per gallon for cars with 6 or 8 cylinders. But among 4 cylinder cars it does, with average miles per gallon increasing with  the number of gears.
+
+The code for this plot is pretty complicated. Before moving on, let's review how it is working.
+
+- `mtcars %>%`: pipes the source data frame to the `mutate()` function on the next two lines.
+- `mutate(gear = factor(gear),`: factors the `gear` variable, overwriting the original; the comma indicates that there will be another operation within `mutate()`.
+- `cyl = factor(cyl)) %>%`: factors the `cyl` variable, overwriting the original, and pipes the result into the next function.
+- `group_by(cyl, gear) %>%`: groups by both `cyl` and `gear` and pipes the tibble with this grouping metadata to the next function.
+- `summarize(avg_mpg = mean(mpg)) %>%`: calculates average miles per gallon for groups defined by the unique combinations of the levels in `cyl` and `gear`, and pipes the resulting summary table into ggplot.
+- `ggplot(mapping = aes(x = cyl, y = avg_mpg, fill = gear)) +`: sets up the blank canvas with `cyl` on the $x$-axis, the calculated value of `avg-mpg` on the $y$-axis, and determines that bars will colored by levels in `gear`.  The line ends with a `+`, signalling that the next line will be adding another layer to the plot.
+- `geom_col(position = "dodge") +`: adds the plot type---a bar plot---with values coming directly from the summary table. (If you wanted to have ggplot count the number of observations then use `geom_bar()`.) The `position` argument indicates that the bars should be dodged---positioned side-by-side.
+- `labs(title = "Bar plot of average mpg by cyl and gear")`: adds a title.
+
+## Taking Stock
+
+We've covered a lot of ground! The lessons so far have introduced functions from base R, dplyr and ggplot2, as well as some productivity tools in RStudio. The number of functions probably seems a little overwhelming.  That can't be avoided at this point.  But if you can master this material you will have established a solid foundation for a career in data analysis.  Keep practicing!
+
+In the R world you will sometimes see strong opinions about coding paradigms.  Some people advocate using only base R, regarding the tidyverse as essentially another programming language (or dialect) that is too difficult or convoluted for beginners.  Others think beginners should *start* with the tidyverse, and  avoid classic programming structures like loops. My approach in these lessons is pragmatic and non-ideological, which is why we started with base R, introduced dplyr and ggplot2, and will definitely cover loops. I find it works best to combine newer functions from the tidyverse with older functions from base R as needed for a particular data analysis task. Sometimes a loop is exactly what you need!  At the same time, I can't imagine a modern data scientist using base R alone---the  fast data wrangling tools in dplyr and the exploratory graphics capabilities in ggplot2 are just too powerful to pass up. The important thing is to learn how to combine these functions flexibly and creatively to achieve your larger analytic goals. As Norm Matloff says:  "Programming is a creative process. It's like a grocery store and cooking: The store has lots of different potential ingredients, and you decide which ones to buy and combine into a meal."  
+
+## R Markdown
+
+Earlier we saw how to create an R script.  Scripts are great for saving and sharing work, but they are pretty rough aesthetically, without many formatting options.  A notebook solves this problem. Similar to a script with comments, a notebook combines code and text, but can be compiled into a publishable-quality article or report---or, indeed, even a book or web page. The notebook format we'll be using in RStudio is **R Markdown**.^[Notebooks are not unique to R or RStudio. The popular [Jupityr Notebooks](https://jupyter.org)  can be used with both R and Python. ("Jupityr" is actually a combination of the names of the major open source statistical programming languages--- Julia, Python, R.) And Google offers a web-hosted version of Jupityr notebooks called [Google Colab](https://colab.research.google.com). RStudio even offers a new multi-language publishing system, Quarto, that allows authors to create documents that include executable code in Python, R or Julia.  ] Beyond the improvements in formatting, though, notebooks like R Markdown also represent an advance in **reproducible data science** in that the finished document contains the code for the analysis within it, in so-called **code chunks**, woven together with written content. An author's analysis and interpretation in a notebook can then easily be examined and evaluated by a collaborator or reviewer, making results more transparent and less error-prone.^[In the bad old days researchers would do an analysis in Excel and then interpret the results in  a paper.  The problem with this workflow was (and is) two-fold: (1) Data manipulation steps in Excel are rarely recorded, making results difficult, if not impossible, to reproduce, even for the author. There is a famous case of an Excel error leading to incorrect conclusions in an influential economics paper.  See this article on the [Reinhart-Rogoff Error](https://theconversation.com/the-reinhart-rogoff-error-or-how-not-to-excel-at-economics-13646). (2) Using a script to record data manipulation steps would be a big improvement over Excel, but even then it would be possible for the script and the written content to get separated, in which case the  author's conclusions would be unsubstantiated by an analysis of the data.] 
+
+Go to RStudio and open an R Markdown document: File >>> New File >>> R Markdown (or click on the document icon in the upper left corner of RStudio and select R Markdown).  A template file will automatically be opened (after you have been prompted to supply the title, author and date):^[Notice that .Rmd is the file type for an R Markdown document.]
+
+![RMarkdown Template](rmarkdown.png)
+
+
+The template is helpful because it can easily be adapted.  Among other things, it illustrates how writing is woven with code in an R Markdown document. The code is included in grayed-out code chunks in between blocks of text, which includes formatting instructions in a very simple language called Markdown. 
+
+We won't cover Markdown syntax in much detail here since for the most part text is compiled exactly as you write it.^[Explore the syntax for the formatting language at this excellent introductory site: [R Markdown](https://rmarkdown.rstudio.com/index.html).  See, in particular, these [lessons](https://rmarkdown.rstudio.com/lesson-1.html).  At the bottom of the introduction page is a link to a helpful R Markdown Cheat Sheet.] In the template document are some examples of simple Markdown for creating headings (double hashtags:  `## R Markdown` and `## Including Plots`) and bolded text (double asterisks: `**Knit**`). 
+
+At the top of the document is the **yaml header** with instructions for compiling the document.  The header is enclosed by---starts and ends with--- three dashes.  In the above screenshot the output or document type has been automatically defined as `html_document.` (You could also choose `pdf_document` or `word_document`.) 
+
+Code chunks are opened and closed with three back ticks, and include some chunk information in curly braces. Here is the first code chunk from the template, which defines global settings for the document:
+
+![Global Settings Code Chunk](global_options.png)
+
+- `r`: Defines this as an R code chunk. 
+- `setup`: Provides the optional title for the chunk. (Notice there is no comma between `r` and the title.)
+- `include = FALSE`: Tells RStudio not to include this code chunk in  the compiled document. 
+- `knitr::opts_chunks$set(echo = TRUE)`:  Sets the global behavior for code chunks in the entire document to be `echo = TRUE`, meaning that the compiled document will show the code from the chunk along with the results.^[The syntax in this `opts_chunk()` function from the knitr package is not very clear but the details are not critical to understand. Just include this code chunk at the top of the document to set the global echo option.]
+
+The next code chunk creates a summary table:
+
+![Table Code Chunk](code_chunk.png)
+
+When the document is compiled R will show the code from the chunk, `summary(cars)`, and display the result. If you don't want the code shown (if, for example, you are writing a formal report) then override the global setting with `echo = FALSE`, as in the next code chunk:
+
+![Plot Code Chunk with Echo Off](echo false.png)
+
+In RStudio go ahead and click the Knit button in the menu immediately above the document.  This will compile the document and open it (if you left the file type as `html_document`) as a web page.  This should give you a good sense of how R Markdown is translated into HTML.
+
+## Coding Style
+
+Analyzing data in a notebook like R Markdown will help make your work reproducible---improving collaboration and productivity---but only if your code is readable. The example code in these lessons has been written to model readability. I hope you have started to internalize that style. Let's review some guidelines for R coding style.
+
+Here is code that is hard to read and understand:
+
+```{r}
+
+SnapshotOfData<-head(arrange(filter(mtcars,mpg>25),wt),5)
+```
+
+Here is the same code rewritten to be more readable:
+
+```{r}
+# Filter for mpg > 25, sort by weight, take the top rows
+mtcars %>% 
+     filter(mpg > 25) %>% 
+     arrange(wt) %>% 
+     head(5) -> data_snapshot # assigns the result to an object
+```
+
+Clearly, pipes help a lot to untangle the code.   Here is a (very) brief of list the stylistic features of readable code.^[For all the details see the [Tidyverse Style Guide](https://style.tidyverse.org).]
+
+- Put functions on separate lines connected by pipes. This way we can see easily see the operations on the data in sequence.^[I usually don't use a pipe for just one function:  `filter(mtcars, wt > 25)` is fine. But when two or more functions are nested it is best to unpack them.]
+- Add spaces to better show arguments.  `mpg > 25` is better than `mpg>25`, and `x[, 1]` is better than `x[,1]`. 
+- Object names should be in "snake_case"---lower case letters with with words separated with an underscore.  Ideally names should be concise and meaningful.
+- Use double quotes not single quotes.
+- Comment your code. There haven't been many comments in these lessons but that's because the the written text functions as comments. Code that is not explained the text of a document should be briefly but clearly explained with comments.
+
+These are opinionated guidelines; style is *style*, after all---each to their own.  For example, in the last code chunk I added the object assignment on the last line. That is because I think it is more *readable*, especially for people new to R, for the flow of the piped code to go top-to-bottom, right-to-left.  You may choose to do the assignment in the first line going right to left.  That would be fine.  Just remember that readability should be one of your main goals in programming.
+
+## Lists
+
+Back to programming.  The data structures we've discussed so far include vectors and data frames.
+**Lists** are also very useful and common. Recall:
+
+- Vectors are one dimensional data structures, consisting in a set of observations with the same data type.
+- Data Frames are two-dimensional tabular data structures, with rows and columns. Each column is a vector, with the same data type.  
+
+Lists are more flexible than either vectors or data frames in that they can be used to group together any mix of R structures and objects.  For example, a list could contain a vector, a data frame, or even another list.
+
+Use the `list()` function to create a list, with the elements separated by commas. 
+
+```{r}
+random_objects <- list(mtcars, rivers, list(1:8, letters), c("curly", "moe", "larry"))
+
+```
+
+These elements can be named while creating the list:
+
+```{r}
+random_objects <- list(old_cars = mtcars, 
+                       river_lengths = rivers, 
+                       numbers_letters = list(numbers = 1:8, 
+                                              letters = c("a", "b", "c")), 
+                       three_stooges = c("curly", "moe", "larry"))
+
+```
+
+
+We can investigate list structure with the familiar `str()` function:
+
+```{r}
+str(random_objects)
+```
+
+From this output we can see that there are 4 list elements:
+
+1. A data frame, `old_cars`.
+2. A numeric vector, `river_lengths`.
+3. A list, `numbers-letters`, consisting in a numeric vector,`numbers`, and a character vector, `letters`.
+4. A character vector, `three_stooges.`
+
+These individual list elements can be extracted using either dollar sign notation or square bracket notation. For example, here is how we would use dollar sign notation to return  `three_stooges`:
+
+
+```{r}
+random_objects$three_stooges
+```
+
+Equivalently, we can index the list with double square brackets. Since `three_stooges` is the fourth element, we would type:^[We could use the *name* of the list element also: `random_objects[["three_stooges"]]` is exactly equivalent to `random_objects[[4]]` because `three_stooges` is the 4th list element.  Note that to index with a name requires using quotation marks.]
+
+```{r}
+random_objects[[4]] 
+
+```
+
+::: callout-note
+## Detail
+
+Why double square brackets? 
+
+What would happen if we were to use single brackets on a list element? 
+
+```{r}
+random_objects[4]
+```
+
+There is a subtle difference here compared to the output above using double square brackets.  This code has returned the list element, `$three_stooges`, but not the items themselves. Indeed, this is simply the fourth list element returned *as a list*:
+
+```{r}
+str(random_objects[4])
+```
+
+Think of a list as a freight train with multiple cars.  Indexing with single brackets returns a car (which is still a list).  Indexing with double brackets returns the items in the car.
 
 :::
 
-## More Rstudio
+To extract individual items from `three_stooges` we index them using a single bracket, as is appropriate for a vector.
 
 
+```{r}
+random_objects$three_stooges[1]
+```
+
+Or:
+
+```{r}
+random_objects[[4]][1]
+```
+
+What about items in the list within the list, the third element,  `numbers_letters`?  Index these items by stacking the brackets. This code returns the first element of that list, `numbers`:
+
+```{r}
+random_objects[[3]][[1]]
+```
+
+And here is how we would extract the first number of that vector:
+
+
+```{r}
+random_objects[[3]][[1]][1]
+```
+
+We can also stack dollar signs and then subset the resulting vector with square bracket notation:
+
+```{r}
+random_objects$numbers_letters$numbers[1]
+```
+
+Is there a reason to choose one approach---dollar sign notation rather than square bracket notation with numeric indexes---over the other when subsetting? Not really. They both work.  Keep in mind, though, that numeric indexing can run into problems if, say, the list is updated with another element.  That could throw off the numeric indexes and cause the code to break. 
+
+
+## Linear Regression (optional)
+
+Lists are used in R for storing, among other things, **model objects**---the information returned after fitting a model.  Let's use **linear regression** as an example.  The purpose here is not to explain regression in much detail but to continue working with lists by exploring a common use case.
+
+Briefly, the simple linear regression model is defined as:
+
+$$
+\hat{y_i} = \beta_{0} + \beta_{1} x_{i}
+$$
+
+where $i$ indexes the observations, and
+
+- $\hat{y_i}$ is the predicted value of the target.
+- $\beta_{0}$ is the intercept.
+- $\beta_{1}$ is the slope.
+
+The `lm()` function in R fits a linear model and by default returns the estimated intercept and slope of the regression line. Let's demonstrate with mtcars by creating a model of `mpg` using `wt` as a predictor:
+
+```{r}
+model <- lm(mpg ~ wt, data = mtcars)
+model
+```
+The regression model equation can be written:  $\widehat{mpg} = 37.285 - 5.344 \space \text{x} \space wt$.^[In statistics the hat notation being used here, $\widehat{mpg}$, means "predicted". ] With this equation we can predict `mpg` for any value of `wt`. Those predictions lie on the regression line defined by the intercept and slope:
+
+```{r}
+#| echo: false
+#| #| message: false
+
+ggplot(mtcars, aes(wt, mpg)) +      geom_point()+     geom_smooth(method = "lm", se = F) +       labs(title = "mpg ~ wt")
+```
+
+Of course, there are other aspects of this model, beyond the intercept and slope, that may be of interest. Additional information is available in the model object and---the most common source---the model summary. 
+
+```{r}
+summary(model)
+```
+
+The `summary()` function prints this information but in the background creates a list object that we can look at with `str()`:
+
+```{r}
+summary(model) %>% 
+     str()
+```
+
+Wow.  This is indeed a complicated list object!  The intercept and slope appear here (under `$ coefficients`)  along with a lot of other information, including the model fit statistics  R-squared and Adjusted R-squared. Let's take a look at `coefficients`.  
+
+```{r}
+summary(model)$coefficients
+```
+
+This is technically a **matrix**---essentially a two dimensional vector---with row and column names. (What looks like the first column is actually the row names.) To extract the intercept and slope numbers we would use square bracket notation, as in a data frame:
+
+```{r}
+#| results: hide
+#| echo: true
+summary(model)$coefficients[1:2, 1]
+```
+
+And to extract R-squared:
+
+```{r}
+summary(model)$r.squared
+```
+
+::: callout-note
+## Tip
+
+
+
+The output from the summary of a model object is designed to be looked at and interpreted.  However, it is sometimes useful to write code to extract certain elements---for example, to include a report---rather than manually typing the numbers. Suppose I want to report model R-squared in the text without having to transcribe it.  In RMarkdown I could write **inline code** to extract the number from the model and insert it into my sentence, like this:  "The model R-squared is `r summary(model)$r.squared %>% round(2)`."  To produce that number I used a single backtick to open the inline code, followed by an `r`, and then a concluding backtick after the code: "The model R-squared is 'r  summary(model)$r.squared %>% round(2)'." This is especially helpful if you are writing a repeating report that includes numbers that will change.
+
+:::
+
+## Creating Data Frames
+
+We have been *using* data frames extensively in these lessons.  How would we *create* a data frame?  
+
+Easy. Use the `data.frame()` function to name and define columns. The process is similar to creating a list, except that data frames are more restrictive.   In particular:
+
+- Each column is a vector, meaning: the observations need to have the same data type.
+- Each column must have the same number of observations. This is because data frames are "square": each column has the same number of rows, and each row has the same number of columns.
+
+Here is a simple example:
+
+```{r}
+data.frame(numbers = 1:3,
+           letters = c("a", "b", "c"))
+
+```
+
+Here both columns have 3 observations. This code produces an error because the columns have different lengths.
+
+
+```{r}
+#| error: true
+data.frame(numbers = 1:8,
+           letters = c("a", "b", "c"))
+```
+
+Most modeling algorithms require tabular data, which is why data frames are so common in analytics.  But you may sometimes need to store non-tabular data.  In that case use a list.
+
+::: callout-note
+## Tip
+
+Remember, to save a data frame you have created simply assign it to an object:
+
+
+```{r}
+
+numbers_letters <- data.frame(numbers = 1:3,
+                              letters = c("a", "b", "c"))
+```
+
+
+:::
+
+There are a couple of helpful functions for efficiently creating data frame columns:  `seq()` and `rep()`.
+
+
+
+## Writing Functions
+
+As you know, learning R consists in learning a daunting number of functions. Indeed, it is not an exaggeration to say that R is really nothing but a set of functions for performing various routine tasks, usually with data.  But one of the features that makes R so powerful is that we are not restricted merely to *using* the functions from base R or contributed packages.  We can also *write* functions of our own. This is easier than it sounds!
+
+Here is a simple example:
+
+```{r}
+print_items <- function (x) {
+     x
+}
+```
+
+Let's unpack the details:
+
+- `print_items <-`: Saves the function as an object in the environment. This will be the name of the function.
+- `function (x) { }`: Initializes the function with an argument, `x`.  The arguments to a function go within the parentheses and the body of the function, containing the code to be executed, goes within the curly braces. In this case we want `x` to be returned.
+- `x`: Executes the code by returning `x`. 
+
+This function, once defined, can be called like any other:
+
+```{r}
+print_items(x = 1:5)
+```
+
+Using the function entails supplying an input for the argument.  This is the value of a function: it performs routine tasks but with varying inputs.  So, if you find yourself writing the same code repeatedly to solve similar tasks, consider writing a function!
+
+Admittedly, this is not a very useful function, since it performs a fixed action, always printing the numbers 1 through 5.  It would be more useful if the user could specify the 
+
+
+## Appendix: List of R Functions{.unnumbered}
+
+Functions are listed roughly in the order of appearance in these lessons. 
+
+-   Mathematical operators:
+    -   `-`: Subtract.
+    -   `/`: Divide.
+    -   `*`: Multiply.
+    -   `^`: Raise to a power.
+    -   `%%`: Calculate the remainder of division (the modulo operator).
+-   `<-`: The assignment operator for assigning a value to an object in the environment.
+-   `hist()`: Creates a frequency plot, or histogram, from a vector of numbers.
+-   `median()`: Calculates the median of a vector. If there are an odd number of values in the vector, the function returns the middle value. If there are an even number of values in the vector, the function returns the average of the two middle numbers.
+-   `mean()`: Returns the average of a numeric vector.
+-   `sd()`: Calculates the the standard deviation of a vector.
+-   `sum()`: Adds up the values in a numeric vector.
+-   `length()`: Counts the number of items in a vector.
+-   `min()` and `max()`: Finds the minimum/maximum observation in as vector.
+-   `?`: Get help for a function. For example to get help on the `hist()` function type `?hist` in the console.
+-   Logical operators:
+    -   `>`: greater than.
+    -   `<`: less than.
+    -   `==`: equal to.
+    -   `!=`: not equal to.
+    -   `>=`: greater than or equal to.
+    -   `<=`: less than or equal to.
+    -   `!x`: not x.
+    -   `x | y`: x OR y.
+    -   `x & y`: x AND y.
+-   `[ ]`: Square bracket notation for subsetting vectors.
+-   `c()`: Create a vector by combining elements together.
+-   `which()`: Returns the index of the values satisfying a given condition.\
+-   `head()`: Returns the first *n* rows a data frame. (By default, *n* is 6.)
+-   `summary()`: Provides a five-number summary of the numeric columns in a data frame: the minimum value, the first quartile (25th percentile), the median, the third quartile (75th percentile), and the maximum value.
+-   `str()`: Provides helpful information about the structure of a data frame. (The "str" stands for "structure.").
+-   `View()`: Brings up a spreadsheet-style data viewer within RStudio.
+-   `[ , ]`: Square bracket notation for subsetting data frames. Before the comma is the rows slot, after is the column slot: `data[rows we want, columns we want]`.
+-   Colon notation: a shorthand method combined for selecting rows or columns in a range when using square bracket notation.
+-   `nrow()`: Returns the number of rows of in a data frame.
+-   `$`: dollar sign notation picks out a single column from a data frame---`data$column.`
+-   `plot()`: Creates a scatterplot showing the relationship between two quantitative variables. (It can also be used to create different kinds of plots.)
+-   `boxplot()`: Creates a boxplot to display the relationship between a quantitative and a categorical variable.
+-   `factor()`: Creates a factor variable.
+-   `tapply()`: Applies a function over subsets of a vector defined by the levels of a factor variable.
+-   `install.packages()`: Downloads and installs a package.
+-   `library()`: Loads the installed packages into the environment.
+-   `read.csv()`: Reads a .csv file into the environment as a data frame.
+-   `write.csv()`: Exports a data frame to a .csv file with fields separated by comma delimiter.
+-   `getwd()`: Returns the path to the working directory.
+-   `setwd()`: Sets the working directory.
+-   `%>%`: The pipe operator. The pipe passes the object on its left hand side to the first argument in the function on its right-hand side, on the next line.
+-   `filter()`: A dplyr verb that subsets a data frame by rows, returning only specific rows as specified by logical criteria.
+-   `arrange()`: A dplyr verb that sorts a data frame by rows based on the variable included as an argument. (Default sorting is from low to high.)
+-   `desc()`: Reverses the default sorting in `arrange()` to be high to low.
+-   `select()`: A dplyr verb that subsets a data frame by columns.
+-   `mutate()`: A dplyr verb that creates a new data frame column.
+-   `summarize()`: A dplyr verb that creates a summary table.
+-   `group_by()`: A dplyr verb that partitions a data frame according the levels in a categorical grouping variable for performing conditional operations with other dplyr verbs. 
+-   `n()`: a dplyr helper function for counting the number of observations.
+-   `round()`: A base R function that rounds a numeric vector input to the specified number of digits.
+- `count()`: A dplyr verb that creates a tables of counts, in effect combining `group_by()` and `summarize(n = n())`.
+- `ungroup()`: A dplyr verb that removes the grouping metadata from a data frame.
+-   `ggplot()`: The first function used in a ggplot2 plot visualization to create the blank canvas. It  has  two arguments: `data` and `mapping`.
+-   `aes()`: The function used within the `mapping` argument to `ggplot()` to specify the visual relationships in the plot:  which variables map to the $x$ and  $y$ axes.
+-   `+`: The operator that adds another layer to  a ggplot2 visualization. Not to be confused with `%>%`!
+- `geom_point()`: The ggplot2 geom that makes a scatterplot.
+- `geom_histogram()`: The ggplot2 geom that makes a histogram.
+- `geom_boxplot()`: The ggplot2 geom that makes a boxplot.
+- `geom_bar()`: The ggplot2 geom that makes a bar plot for a categorical variable with the heights of the bars determined by counts.
+- `geom_col()`: The ggplot2 geom that makes a bar plot for a categorical variable with the heights of the bars drawn from a summary table.
+-   `labs()`: The ggplot2 function for adding a title to a plot.
+-   `facet_wrap()`: A ggplot2 function for creating a small multiples plot.
+- `list()`: Creates a list.
+- `data.frame()`: Creates a data frame.
+- `seq()`:
+- `rep()`:
+- `function(){}`: Defines a function.
