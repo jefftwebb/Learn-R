@@ -166,7 +166,7 @@ To explore objects further, try this code:
 3 <- 1 + 2
 ```
 
-We get an error. Errors in R (which on your local machine will be printed in red, to get your attention) *attempt* to supply some useful information so that you can correct the problem. *Don't panic about errors*: they are an unavoidable part of programming, such that it is largely accurate to say that "coding is debugging." The key is to figure out how to understand and use error messages. Here we are told: "invalid (do_set) left-hand side to assignment." (I'm not sure what "(do_set)" means. But I could probably figure it out by googling: "do_set R.")[^4] Take a moment to think about the error message. Something is wrong with the left-hand side of the assignment, which makes sense. We can't *assign* 3 a value because, as a number, it already has a value intrinsically. For objects, we must instead pick letters or words which do not already have an assigned value. (Think of this as analogous to math when "x" is used to *represent* a value. Same thing here.)
+We get an error. Errors in R (which on your local machine will be printed in red, to get your attention) *attempt* to supply some useful information so that you can correct the problem. *Don't panic about errors*: they are an unavoidable part of programming, such that it is largely accurate to say that "coding is debugging." The key is to figure out how to understand and use error messages. Here we are told: "invalid (do_set) left-hand side to assignment." (I'm not sure what "(do_set)" means. But I could probably figure it out by googling: "do_set R.")[^4] Take a moment to think about the error message. Something is wrong with the left-hand side of the assignment, which makes sense. We can't *assign* 3 a value because, as a number, it already has a value intrinsically. For objects, we must instead pick letters or words which do not already have an assigned value. (Think of this as analogous to math when "x" is used to *represent* a value. Same thing here.)^[As a rule, names in R must start with a letter and avoid the special characters accessed with the shift key---for example, n the top row of the keyboard--- which are reserved for other uses.  The exception to the rule is the underscore, `_`.  We'll come back to naming conventions in a later lesson.  ]
 
 [^4]: Googling R errors will often take you to the Stack Overflow site, which hosts a community Q & A forum. Stack Overflow discussions can be useful, but are sometimes incomplete or incorrect. As always, you need to think critically about (rather than just blindly accepting) information on the internet. Best practice here would be to google the non-specific part of the error message: "invalid (do_set) left-hand side to assignment."
 
@@ -439,11 +439,13 @@ This code works because R expects the `breaks` argument in the second position. 
 hist(20, rivers)
 ```
 
-However, we can fix this error if we *name* the arguments. Naming overrides position in function calls.
+However, we can fix this error if we *name* the arguments. Naming overrides position in function calls.^[Note that in these lessons I will usually rely on position rather naming to define the `x` argument for functions like `hist()`.  This is because I think `hist(rivers)` is sufficiently clear, and a little less cluttered than `hist(x = rivers)`. Likewise for routine summary statistics:  I'll usually write `mean(rivers)` rather than `mean(x = rivers)`. ]
 
 ```{r}
 hist(breaks = 20, x = rivers)
 ```
+
+
 
 One final point for now. All function help files in R include an Examples section with code illustrating how to use the function. You can click "Run examples" in most help files to bring up a document that displays code and results, or you can simply cut and paste that code into the console and run it by pressing Return.
 
@@ -1301,7 +1303,7 @@ dplyr includes a lot of complexity at this point. We will try to keep things sim
 
 Before getting into the dplyr verbs, let's introduce an important syntactic development in R programming: the **pipe operator**, `%>%`.[^34] Pipes make code easier to read and therefore improve collaboration. This is a stylistic innovation that substantively impacts productivity.
 
-[^34]: The pipe operator was introduced in the magrittr package in 2014.  Recently, a  pipe operator has been added to base R: `|>`. We will use the magrittr pipe in these lessons. For basic uses the two pipes function identically.
+[^34]: The pipe operator was introduced in the magrittr package in 2014.  Recently, a  pipe operator has been added to base R: `|>`. We will use the magrittr pipe in these lessons. For basic uses the two pipes function identically. Not5e that we don't need to load the magrittr package to use this pipe, since it is loaded with dplyr.
 
 Briefly:
 
@@ -1473,7 +1475,7 @@ One last point. A very useful function to combine with `mutate()` is `ifelse()`.
 
 [^38]: While useful, the `ifelse()` function can become cumbersome if used to make multiple changes requiring *nested* `ifelse()` statements. At that point, another dplyr function, which we'll cover in detail later, works better: `case_when()`.
 
-As an example, let's create a binary version of the `wt` variable, which will take the following values: `above_avg` if the weight is above average, `below_avg` otherwise.
+As an example, let's create a binary version of the `wt` variable, which will take the following values: `above_avg` if the weight is above average, `below_avg` otherwise. 
 
 ```{r}
 mtcars %>%
@@ -1485,7 +1487,7 @@ mtcars %>%
 Looks good. Here is an explanation of the code:
 
 -   `mtcars %>%`: pipes the data from the first line into the first argument of the second line.
--   `mutate(binary_wt = ifelse(wt > mean(wt), "above_avg", "below_avg")) %>%`: creates a new column in the data frame, `binary_wt`---the name, by the way, is arbitrary---based on this transformation logic: if observed `wt` in a given row is greater than average weight, then return a value of "above_avg," otherwise (that is, if `wt` is below average) return a value of "below average." The resulting data frame is then piped into the next line.
+-   `mutate(binary_wt = ifelse(wt > mean(wt), "above_avg", "below_avg")) %>%`: creates a new column in the data frame, `binary_wt`---the name, by the way, is arbitrary---based on this transformation logic: if observed `wt` in a given row is greater than average weight, then return a value of "above_avg," otherwise (that is, if `wt` is below average) return a value of "below average." The resulting data frame with this new variable is then piped into the next line.
 -   `select(wt, binary_wt) %>%`: selects just two columns and pipes the resulting data frame to the next line.
 -   `head()`: filters the data frame to include just the first 6 lines.
 
@@ -1538,7 +1540,7 @@ mtcars %>%
      summarize(avg = mean(mpg))
 ```
 
-The return value here is a data frame with a row for each level of the grouping variable.^[This data frame is technically a "tibble," a special type of data frame used by the tidyverse.  The main difference is in the way a tibble prints to the screen---it will show the first few rows and only the columns that fit on one screen.] The two columns correspond to the grouping variable and the defined summary statistic. (In the latter case the name of the column comes from the arbitrary name we used within the `summarize()` function.) We can easily add information to this table by defining more summary statistics, with one per line, and lines separated by commas:
+The return value here is a data frame with a row for each level of the grouping variable.^[This data frame is technically a "tibble," a special type of data frame used by the tidyverse.  The main difference is in the way a tibble prints to the screen---it will show the first few rows and only the columns that fit on one screen.] The two columns correspond to the grouping variable and the mean of `mpg`.  In the latter case the name of the column comes from the arbitrary name, `avg`, we used within the `summarize()` function. We can easily add information to this table by defining more summary statistics, with one per line, and lines separated by commas:
 
 ```{r}
 mtcars %>%
@@ -2043,13 +2045,13 @@ When the document is compiled R will show the code from the chunk, `summary(cars
 
 ![Plot Code Chunk with Echo Off](echo false.png)
 
-In RStudio go ahead and click the Knit button in the menu immediately above the document.  This will compile the document and open it (if you left the file type as `html_document`) as a web page.  This should give you a good sense of how R Markdown is translated into HTML.
+In RStudio go ahead and click the Knit button in the menu immediately above the document.  This will compile the document and open it automatically (as a web page, if you left the file type as `html_document`).  This should give you a good sense of how R Markdown translates to HTML.
 
 ## Coding Style
 
-Analyzing data in a notebook like R Markdown will help make your work reproducible---improving collaboration and productivity---but only if your code is readable. The example code in these lessons has been written to model readability. I hope you have started to internalize that style. Let's review some guidelines for R coding style.
+Analyzing data in a notebook like R Markdown will help make your work reproducible---thereby improving collaboration and productivity---but only if your code is readable. The example code in these lessons has been written to model readability. I hope you have started to internalize that style. Let's review some guidelines for R coding style.
 
-Here is code that is hard to read and understand:
+This code is hard to understand:
 
 ```{r}
 
@@ -2068,32 +2070,34 @@ mtcars %>%
 
 Clearly, pipes help a lot to untangle the code.   Here is a (very) brief of list the stylistic features of readable code.^[For all the details see the [Tidyverse Style Guide](https://style.tidyverse.org).]
 
-- Put functions on separate lines connected by pipes. This way we can see easily see the operations on the data in sequence.^[I usually don't use a pipe for just one function:  `filter(mtcars, wt > 25)` is fine. But when two or more functions are nested it is best to unpack them.]
+- Put functions on separate lines connected by pipes. This way we can see easily see the operations on the data in sequence.^[I usually don't use a pipe for just one function:  `filter(mtcars, wt > 25)` is fine. But when two or more functions are nested it is best to unpack them with pipes.]
 - Add spaces to better show arguments.  `mpg > 25` is better than `mpg>25`, and `x[, 1]` is better than `x[,1]`. 
 - Object names should be in "snake_case"---lower case letters with with words separated with an underscore.  Ideally names should be concise and meaningful.
-- Use double quotes not single quotes.
+- Use double quotes not single quotes:  `mtcars[, "mpg"]` not `mtcars[, 'mpg']`.
 - Comment your code. There haven't been many comments in these lessons but that's because the the written text functions as comments. Code that is not explained the text of a document should be briefly but clearly explained with comments.
 
-These are opinionated guidelines; style is *style*, after all---each to their own.  For example, in the last code chunk I added the object assignment on the last line. That is because I think it is more *readable*, especially for people new to R, for the flow of the piped code to go top-to-bottom, right-to-left.  You may choose to do the assignment in the first line going right to left.  That would be fine.  Just remember that readability should be one of your main goals in programming.
+These are opinionated guidelines; style is *style*, after all---each to their own.  For example, in the last code chunk I added the object assignment on the last line. That is because I think it is more *readable*, especially for people new to R, for the flow of the piped code to go consistently top-to-bottom, right-to-left.  You may choose to do the assignment in the first line going right to left.  That would be fine.  Just remember that readability should be one of your main goals in data science programming.
 
 ## Lists
 
-Back to programming.  The data structures we've discussed so far include vectors and data frames.
-**Lists** are also very useful and common. Recall:
+The data structures we've discussed so far include vectors and data frames.  
 
 - Vectors are one dimensional data structures, consisting in a set of observations with the same data type.
 - Data Frames are two-dimensional tabular data structures, with rows and columns. Each column is a vector, with the same data type.  
 
-Lists are more flexible than either vectors or data frames in that they can be used to group together any mix of R structures and objects.  For example, a list could contain a vector, a data frame, or even another list.
+**Lists** are also a very useful and common data structure. They are more flexible than either vectors or data frames in that they can be used to group together any mix of R structures and objects.  For example, a list could contain a vector, a data frame, or even another list.
 
 Use the `list()` function to create a list, with the elements separated by commas. 
 
 ```{r}
-random_objects <- list(mtcars, rivers, list(1:8, letters), c("curly", "moe", "larry"))
+random_objects <- list(mtcars, 
+                       rivers, 
+                       list(1:8, letters), 
+                       c("curly", "moe", "larry"))
 
 ```
 
-These elements can be named while creating the list:
+These elements can be named while creating the list.  Just add `name = ...` before the item.
 
 ```{r}
 random_objects <- list(old_cars = mtcars, 
@@ -2104,8 +2108,7 @@ random_objects <- list(old_cars = mtcars,
 
 ```
 
-
-We can investigate list structure with the familiar `str()` function:
+The familiar `str()` function will show the list structure:
 
 ```{r}
 str(random_objects)
@@ -2113,10 +2116,10 @@ str(random_objects)
 
 From this output we can see that there are 4 list elements:
 
-1. A data frame, `old_cars`.
-2. A numeric vector, `river_lengths`.
-3. A list, `numbers-letters`, consisting in a numeric vector,`numbers`, and a character vector, `letters`.
-4. A character vector, `three_stooges.`
+1. A data frame, `old_cars`, with 32 rows.
+2. A numeric vector, `river_lengths`, with 141 observations.
+3. A list, `numbers-letters`, consisting in a numeric vector,`numbers`, and a character vector, `letters`, with 8 and 3 observations, respectively.
+4. A character vector, `three_stooges`, with 3 items.
 
 These individual list elements can be extracted using either dollar sign notation or square bracket notation. For example, here is how we would use dollar sign notation to return  `three_stooges`:
 
@@ -2125,7 +2128,7 @@ These individual list elements can be extracted using either dollar sign notatio
 random_objects$three_stooges
 ```
 
-Equivalently, we can index the list with double square brackets. Since `three_stooges` is the fourth element, we would type:^[We could use the *name* of the list element also: `random_objects[["three_stooges"]]` is exactly equivalent to `random_objects[[4]]` because `three_stooges` is the 4th list element.  Note that to index with a name requires using quotation marks.]
+Equivalently, since `three_stooges` is the fourth element we can index the list with `4` in double square brackets.^[We could also use the *name* of the list element: `random_objects[["three_stooges"]]`. Note that indexing with a name requires using quotation marks.]
 
 ```{r}
 random_objects[[4]] 
@@ -2135,7 +2138,7 @@ random_objects[[4]]
 ::: callout-note
 ## Detail
 
-Why double square brackets? 
+Why *double* square brackets? 
 
 What would happen if we were to use single brackets on a list element? 
 
@@ -2160,7 +2163,7 @@ To extract individual items from `three_stooges` we index them using a single br
 random_objects$three_stooges[1]
 ```
 
-Or:
+Or, same result:
 
 ```{r}
 random_objects[[4]][1]
@@ -2179,18 +2182,18 @@ And here is how we would extract the first number of that vector:
 random_objects[[3]][[1]][1]
 ```
 
-We can also stack dollar signs and then subset the resulting vector with square bracket notation:
+We could also stack dollar signs and then subset the resulting vector with square bracket notation:
 
 ```{r}
 random_objects$numbers_letters$numbers[1]
 ```
 
-Is there a reason to choose one approach---dollar sign notation rather than square bracket notation with numeric indexes---over the other when subsetting? Not really. They both work.  Keep in mind, though, that numeric indexing can run into problems if, say, the list is updated with another element.  That could throw off the numeric indexes and cause the code to break. 
+Is there a reason to prefer one approach---dollar sign notation rather than square bracket notation with numeric indexes---when subsetting? Not really. They both work.  Keep in mind, though, that numeric indexing can run into problems if, say, the list is updated with another element.  That could throw off the numeric indexes and cause the code to break. 
 
 
 ## Linear Regression (optional)
 
-Lists are used in R for storing, among other things, **model objects**---the information returned after fitting a model.  Let's use **linear regression** as an example.  The purpose here is not to explain regression in much detail but to continue working with lists by exploring a common use case.
+Lists are used in R for storing, among other things, **model objects**---the information returned after fitting a model.  Let's use **linear regression** as an example.  The purpose here is not to explain regression but to continue working with lists by exploring a common use case.
 
 Briefly, the simple linear regression model is defined as:
 
@@ -2200,9 +2203,10 @@ $$
 
 where $i$ indexes the observations, and
 
-- $\hat{y_i}$ is the predicted value of the target.
-- $\beta_{0}$ is the intercept.
-- $\beta_{1}$ is the slope.
+- $\hat{y_i}$ is the $i^{th}$ predicted value of the target variable;^[In statistics hat notation---the caret symbol over the $y$---means "predicted." ] 
+- $\beta_{0}$ is the intercept;
+- $\beta_{1}$ is the slope;
+- $x_i$ is the $i^{th}$ value of the predictor variable.
 
 The `lm()` function in R fits a linear model and by default returns the estimated intercept and slope of the regression line. Let's demonstrate with mtcars by creating a model of `mpg` using `wt` as a predictor:
 
@@ -2210,7 +2214,7 @@ The `lm()` function in R fits a linear model and by default returns the estimate
 model <- lm(mpg ~ wt, data = mtcars)
 model
 ```
-The regression model equation can be written:  $\widehat{mpg} = 37.285 - 5.344 \space \text{x} \space wt$.^[In statistics the hat notation being used here, $\widehat{mpg}$, means "predicted". ] With this equation we can predict `mpg` for any value of `wt`. Those predictions lie on the regression line defined by the intercept and slope:
+The regression model equation can be written:  $\widehat{mpg} = 37.285 - 5.344 \space \text{x} \space wt$. With this equation we can predict `mpg` for any value of `wt`. Those predictions lie on the regression line defined by the intercept and slope:
 
 ```{r}
 #| echo: false
@@ -2219,30 +2223,29 @@ The regression model equation can be written:  $\widehat{mpg} = 37.285 - 5.344 \
 ggplot(mtcars, aes(wt, mpg)) +      geom_point()+     geom_smooth(method = "lm", se = F) +       labs(title = "mpg ~ wt")
 ```
 
-Of course, there are other aspects of this model, beyond the intercept and slope, that may be of interest. Additional information is available in the model object and---the most common source---the model summary. 
+Of course, there are other potentially interesting aspects of a model, beyond just the intercept and slope. Additional information is available in the model object and---the most common source---the model summary:
 
 ```{r}
 summary(model)
 ```
 
-The `summary()` function prints this information but in the background creates a list object that we can look at with `str()`:
+The `summary()` function prints this information to the console but also, in the background, creates a list object that we can look at with `str()`:
 
 ```{r}
 summary(model) %>% 
      str()
 ```
 
-Wow.  This is indeed a complicated list object!  The intercept and slope appear here (under `$ coefficients`)  along with a lot of other information, including the model fit statistics  R-squared and Adjusted R-squared. Let's take a look at `coefficients`.  
+Wow.  This is a complicated list object!  The intercept and slope appear here (under `$ coefficients`)  along with a lot of other information, including model fit statistics such as R-squared and Adjusted R-squared. Let's take a look at `coefficients`.  
 
 ```{r}
 summary(model)$coefficients
 ```
 
-This is technically a **matrix**---essentially a two dimensional vector---with row and column names. (What looks like the first column is actually the row names.) To extract the intercept and slope numbers we would use square bracket notation, as in a data frame:
+This is technically a **matrix**---essentially a two dimensional vector---with row and column names.^[Matrices are similar to data frames in having both rows and columns, but are dissimilar in not mixing data types. Numeric matrices are the workhorses of scientific computing in R.] (What looks like the first column is actually the row names.) To extract the intercept and slope numbers from this matrix we would use square bracket notation, as in a data frame:
 
 ```{r}
-#| results: hide
-#| echo: true
+
 summary(model)$coefficients[1:2, 1]
 ```
 
@@ -2257,7 +2260,7 @@ summary(model)$r.squared
 
 
 
-The output from the summary of a model object is designed to be looked at and interpreted.  However, it is sometimes useful to write code to extract certain elements---for example, to include a report---rather than manually typing the numbers. Suppose I want to report model R-squared in the text without having to transcribe it.  In RMarkdown I could write **inline code** to extract the number from the model and insert it into my sentence, like this:  "The model R-squared is `r summary(model)$r.squared %>% round(2)`."  To produce that number I used a single backtick to open the inline code, followed by an `r`, and then a concluding backtick after the code: "The model R-squared is 'r  summary(model)$r.squared %>% round(2)'." This is especially helpful if you are writing a repeating report that includes numbers that will change.
+The output from the summary of a model object is designed to be looked at and interpreted.  However, it is sometimes useful to write code to extract an element directly from the summary, to include in the text of a report, for example, without needing to manually transcribe it.  In RMarkdown, I could write **inline code** (which works like a mini code chunk) to extract R-squared from the model and insert it into my sentence, like this:  "The model R-squared is `r summary(model)$r.squared %>% round(2)`."  To get that R-squared number I used a single backtick to open the inline code, followed by an `r` (to indicate that it is R code), and then a concluding backtick after the code: "The model R-squared is 'r  summary(model)$r.squared %>% round(2)'." Extracting information directly from the model like this is especially helpful if you are writing a repeating report that includes numbers that will change.
 
 :::
 
@@ -2265,10 +2268,12 @@ The output from the summary of a model object is designed to be looked at and in
 
 We have been *using* data frames extensively in these lessons.  How would we *create* a data frame?  
 
-Easy. Use the `data.frame()` function to name and define columns. The process is similar to creating a list, except that data frames are more restrictive.   In particular:
+Easy. Use the `data.frame()` function to name and define columns. The process is similar to creating a list, except that data frames are more restrictive. 
 
-- Each column is a vector, meaning: the observations need to have the same data type.
-- Each column must have the same number of observations. This is because data frames are "square": each column has the same number of rows, and each row has the same number of columns.
+<!-- Recall: -->
+
+<!-- - Columns are vectors; the observations must be the same data type. -->
+<!-- - Columns need the same number of observations.^[In other words, data frames are rectangular: each column has the same number of rows, and each row has the same number of columns.] -->
 
 Here is a simple example:
 
@@ -2278,8 +2283,7 @@ data.frame(numbers = 1:3,
 
 ```
 
-Here both columns have 3 observations. This code produces an error because the columns have different lengths.
-
+Both columns, `numbers` and `letters`, have 3 observations. What if the column lengths were different? 
 
 ```{r}
 #| error: true
@@ -2287,24 +2291,59 @@ data.frame(numbers = 1:8,
            letters = c("a", "b", "c"))
 ```
 
-Most modeling algorithms require tabular data, which is why data frames are so common in analytics.  But you may sometimes need to store non-tabular data.  In that case use a list.
+An error. 
 
-::: callout-note
-## Tip
+Most modeling algorithms require tabular data, which is why data frames are so common in analytics.  If you need to store *non*-tabular data then use a list.
 
-Remember, to save a data frame you have created simply assign it to an object:
+<!-- ::: callout-note -->
+<!-- ## Tip -->
+
+<!-- Remember, to save a data frame you have created simply assign it to an object: -->
+
+
+<!-- ```{r} -->
+
+<!-- numbers_letters <- data.frame(numbers = 1:3, -->
+<!--                               letters = c("a", "b", "c")) -->
+<!-- ``` -->
+
+
+<!-- ::: -->
+
+I should mention a couple of helpful functions for efficiently creating vectors or---the same thing--- data frame columns:  
+
+- `seq()` stands for "sequence" and has three main arguments: `from` (the start of the sequence), `to` (the end) and `by` (the increment).
+- `rep()` stands for "repeat" and has two main arguments:  `x` (the item to be repeated), `times` (the number of repetitions). 
+
+Here are some examples:
+
+```{r}
+seq(from = 2, to = 20, by = 2)
+```
+
+```{r}
+rep(x = "a", times = 10)
+```
+
+Take care to define columns with the same number of rows:
+
+```{r}
+data.frame(numbers = seq(from = 2, to = 20, by = 2),
+           letters = c(rep(x = "a", times = 5),
+                       rep(x = "b", times = 5)))
+
+```
+
+It can be convenient to replace the `to` argument with an alternative, `length.out`, which ensures a certain length of output.  
 
 
 ```{r}
+data.frame(numbers = seq(from = 2, by = 2, length.out = 10),
+           letters = c(rep(x = "a", times = 5),
+                       rep(x = "b", times = 5)))
 
-numbers_letters <- data.frame(numbers = 1:3,
-                              letters = c("a", "b", "c"))
 ```
 
-
-:::
-
-There are a couple of helpful functions for efficiently creating data frame columns:  `seq()` and `rep()`.
 
 
 
@@ -2315,26 +2354,112 @@ As you know, learning R consists in learning a daunting number of functions. Ind
 Here is a simple example:
 
 ```{r}
-print_items <- function (x) {
-     x
+return_items <- function (items) {
+     items
 }
 ```
 
 Let's unpack the details:
 
-- `print_items <-`: Saves the function as an object in the environment. This will be the name of the function.
-- `function (x) { }`: Initializes the function with an argument, `x`.  The arguments to a function go within the parentheses and the body of the function, containing the code to be executed, goes within the curly braces. In this case we want `x` to be returned.
-- `x`: Executes the code by returning `x`. 
+- `return_items <-`: Saves the function as a named object in the environment.
+- `function (items) { }`: Defines the function with an argument, `items`.  The arguments go within the parentheses, while the body of the function, containing the code to be executed, goes within the curly braces. The name of the argument is arbitrary but should be descriptive. 
+- `items`: Executes the the code in the body of the function by returning `items`. The code uses the named argument as an input.
 
-This function, once defined, can be called like any other:
+Once defined, this function can be called like any other by supplying an input for the argument:
 
 ```{r}
-print_items(x = 1:5)
+return_items(items = 1:5)
 ```
 
-Using the function entails supplying an input for the argument.  This is the value of a function: it performs routine tasks but with varying inputs.  So, if you find yourself writing the same code repeatedly to solve similar tasks, consider writing a function!
+The value of creating a function is that *it performs routine tasks with varying inputs*.  So, if you find yourself writing the same code repeatedly to solve similar tasks, consider writing a function!
 
-Admittedly, this is not a very useful function, since it performs a fixed action, always printing the numbers 1 through 5.  It would be more useful if the user could specify the 
+Admittedly, `return_items()` isn't very useful since we could get the same result by simply typing (with fewer keystrokes) `1:5` in the console. 
+
+An example of a more useful---and more complicated--- function would be one that finds the mode, or most common level, for a factor variable in a vector or data frame column. To my knowledge, base R does not have such a function. Let's make it!
+
+```{r}
+mode <- function(x) {
+     
+    data.frame(x) %>% 
+          count(x) %>% 
+          arrange(desc(n)) -> df
+     
+     df[1, 1]
+     
+}
+```
+
+How does this function work?
+
+- `mode <- function(x){ }`: Defines a function, `mode`, with one named argument, `x`, for a factor variable. Notice that `x` is used to write the code in the body of the function.
+- `data.frame(x) %>%`: Creates a data frame (since dplyr only works with data frames) and pipes it into the next line. 
+- `count(x) %>%`: Creates a summary table with counts of unique observations in a column titled `n`.
+- `arrange(desc(n)) -> df`: Arranges the summary table with the largest `n` in the top row and saves it in a data frame, `df.`
+- `df[1, 1]`: Extracts the value  with the largest `n` from `df`.
+
+::: callout-note
+
+## Detail
+
+What does it mean to say that `df` is "saved"? Saved where?  
+
+To answer this question requires touching on the notion of scoping in computer science:  
+
+"In computer programming, the scope of a name binding (an association of a name to an entity, such as a variable) is the part of a program where the name binding is valid; that is, where the name can be used to refer to the entity.
+
+A fundamental distinction in scope is what 'part of a program' means. In languages with lexical scope, name resolution depends on the location in the source code and the lexical context, which is defined by where the named variable or function is defined."  [Wikipedia](https://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scope_vs._dynamic_scope)
+
+The R language is lexically scoped; name resolution depends on context.  So, `df` is saved, but not in the global environment.  Instead, its lexical context is the `mode()` function, within which the name binding is valid.  Objects like `df` saved within a function will not appear in RStudio's Environment pane.
+
+:::
+
+To understand the action inside a function it can be helpful to run the code piece by piece.  We'll use `cyl` in mtcars as the test input. Here is the output from first two lines:
+
+```{r}
+data.frame(x = mtcars$cyl) %>% 
+     count(x) 
+```
+
+Now, sort the table by `n`:
+
+```{r}
+
+data.frame(x = mtcars$cyl) %>% 
+     count(x) %>% 
+     arrange(desc(n)) 
+```
+
+The final step in the function is to extract the highest frequency value---8 cylinders--- from the table with `df[1, 1]`.
+
+Let's see if the function works as expected.
+
+```{r}
+mode(mtcars$cyl)
+```
+
+Great! We can now use it as we would any other function in a summary table. 
+
+```{r}
+mtcars %>% 
+     summarize(avg_mpg = mean(mpg),
+               avg_wt = mean(wt),
+               avg_hp = mean(hp),
+               mode_cyl = mode(cyl),
+               mode_carb = mode(carb),
+               mode_gear = mode(gear)) %>% 
+     round(2)
+```
+
+
+
+We should acknowledge that there are some situations in which `mode()` would fail or produce misleading results.  
+
+1. It should not be used with a continuous vector. (The mode is a summary statistic for factor variables.)
+2. It will produce an error for any input other than a vector. (Try it with a data frame.)
+3. If there are two factor levels with the same number of observations it would return one of them arbitrarily.
+
+So, `mode()` could use some further development---we might want to build in some error messages and warnings---but it is a good first effort.
+
 
 
 ## Appendix: List of R Functions{.unnumbered}
@@ -2411,6 +2536,6 @@ Functions are listed roughly in the order of appearance in these lessons.
 -   `facet_wrap()`: A ggplot2 function for creating a small multiples plot.
 - `list()`: Creates a list.
 - `data.frame()`: Creates a data frame.
-- `seq()`:
-- `rep()`:
-- `function(){}`: Defines a function.
+- `seq()` stands for "sequence" and has three main arguments: `from` (the start of the sequence), `to` (the end) and `by` (the increment).
+- `rep()` stands for "repeat" and has two main arguments:  `x` (the item to be repeated), `times` (the number of repetitions).
+- `function(){}`: Defines a function. The arguments to the function go within the parentheses and the body of the function ---the code to be executed---within the curly braces.
