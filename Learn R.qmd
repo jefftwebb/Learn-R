@@ -271,7 +271,7 @@ We can also do arithmetic with *entire* vectors.
 rivers / rivers
 ```
 
-Again, the calculation is done element-wise: each element of rivers has been divided by itself. We can represent this operation as:
+Again, the calculation is done element-wise: each element of `rivers` has been divided by itself. We can represent this operation as:
 
 $$ \begin{bmatrix} a \\ b \\ c \end{bmatrix} \div \begin{bmatrix} a \\ b \\ c \end{bmatrix} = \begin{bmatrix} \frac{a}{a} = 1\\ \frac{b}{b} = 1\\ \frac{c}{c} =1 \end{bmatrix} $$ One nuance is important to mention. I referred to a "single number" above. But even single numbers are vectors.[^7] *Vectors are the most basic data type in R.* This tells us something about the way vector arithmetic is working: the single number vector is being *recycled* for each element-wise operation.
 
@@ -756,7 +756,7 @@ Lastly, one of the amenities offered by RStudio is the Data Viewer[^18]---a spre
 
 Subsetting or filtering data frames is a common and important task.
 
-Previously we saw how to subset *vectors*. To return the first observation in the `rivers` dataset, for example, we would type `rivers[1]` in the console, placing that observation's index within square brackets. Or, to return all the river lengths greater than 1000 miles we would type `rivers[rivers > 1000]`. The condition specified within the square brackets evaluates as a logical vector. R uses the location of the TRUEs in that vector to index the observations.
+Previously we saw how to subset *vectors*. To return the first observation in the `rivers` data, for example, we would type `rivers[1]` in the console, placing that observation's index within square brackets. Or, to return all the river lengths greater than 1000 miles we would type `rivers[rivers > 1000]`. The condition specified within the square brackets evaluates as a logical vector. R uses the location of the TRUEs in that vector to index the observations.
 
 For vectors, then, we index in *one dimension*: `data[the observations we want]`.
 
@@ -1723,7 +1723,7 @@ ggplot(data = mtcars,
      labs(title = "Scatterplot of wt vs. mpg  by cyl")
 ```
 
-Has something has gone wrong here?  Yes. The legend shows cylinder numbers that don't exist in the data.  The problem is that `cyl` is properly a categorical variable but is encoded in mtcars as an integer. As as consequence, ggplot misunderstands it as a continuous variable.  So, the plot works---there is no error---but not as intended. Changes in `cyl` are represented by *gradations* of color rather than the expected *differences* in color suited for a categorical variable.^[In ggplot differences in a continuous variable are represented by changes in hue---the default is gradations of blue---whereas differences in a categorical variable are represented by discrete changes in color---default red/green/blue.]  We need to recode `cyl`.
+Has something has gone wrong here?  Yes. The legend shows cylinder numbers that don't exist in the data.  The problem is that `cyl` is properly a categorical variable but is encoded in `mtcars` as an integer. As as consequence, ggplot misunderstands it as a continuous variable.  So, the plot works---there is no error---but not as intended. Changes in `cyl` are represented by *gradations* of color rather than the expected *differences* in color suited for a categorical variable.^[In ggplot differences in a continuous variable are represented by changes in hue---the default is gradations of blue---whereas differences in a categorical variable are represented by discrete changes in color---default red/green/blue.]  We need to recode `cyl`.
 
 We could change `cyl` on the fly within `ggplot()` using the `factor()` function. This is a quick and dirty fix:
 
@@ -2073,7 +2073,7 @@ Clearly, pipes help a lot to untangle the code.   Here is a (very) brief of list
 - Put functions on separate lines connected by pipes. This way we can see easily see the operations on the data in sequence.^[I usually don't use a pipe for just one function:  `filter(mtcars, wt > 25)` is fine. But when two or more functions are nested it is best to unpack them with pipes.]
 - Add spaces to better show arguments.  `mpg > 25` is better than `mpg>25`, and `x[, 1]` is better than `x[,1]`. 
 - Object names should be in "snake_case"---lower case letters with with words separated with an underscore.  Ideally names should be concise and meaningful.
-- Use double quotes not single quotes:  `mtcars[, "mpg"]` not `mtcars[, 'mpg']`.
+- Use double quotes not single quotes:  `mtcars[, "mpg"]` not `mtcars[, 'mpg']`. 
 - Comment your code. There haven't been many comments in these lessons but that's because the the written text functions as comments. Code that is not explained the text of a document should be briefly but clearly explained with comments.
 
 These are opinionated guidelines; style is *style*, after all---each to their own.  For example, in the last code chunk I added the object assignment on the last line. That is because I think it is more *readable*, especially for people new to R, for the flow of the piped code to go consistently top-to-bottom, right-to-left.  You may choose to do the assignment in the first line going right to left.  That would be fine.  Just remember that readability should be one of your main goals in data science programming.
@@ -2208,7 +2208,7 @@ where $i$ indexes the observations, and
 - $\beta_{1}$ is the slope;
 - $x_i$ is the $i^{th}$ value of the predictor variable.
 
-The `lm()` function in R fits a linear model and by default returns the estimated intercept and slope of the regression line. Let's demonstrate with mtcars by creating a model of `mpg` using `wt` as a predictor:
+The `lm()` function in R fits a linear model and by default returns the estimated intercept and slope of the regression line. Let's demonstrate with `mtcars` by creating a model of `mpg` using `wt` as a predictor:
 
 ```{r}
 model <- lm(mpg ~ wt, data = mtcars)
@@ -2362,7 +2362,7 @@ return_items <- function (items) {
 Let's unpack the details:
 
 - `return_items <-`: Saves the function as a named object in the environment.
-- `function (items) { }`: Defines the function with an argument, `items`.  The arguments go within the parentheses, while the body of the function, containing the code to be executed, goes within the curly braces. The name of the argument is arbitrary but should be descriptive. 
+- `function (items) { }`: Defines the function with a single argument, `items`.  The arguments go within the parentheses, while the body of the function, containing the code to be executed, goes within the curly braces. The name of the argument is arbitrary but should be descriptive. 
 - `items`: Executes the the code in the body of the function by returning `items`. The code uses the named argument as an input.
 
 Once defined, this function can be called like any other by supplying an input for the argument:
@@ -2409,11 +2409,11 @@ To answer this question requires touching on the notion of scoping in computer s
 
 A fundamental distinction in scope is what 'part of a program' means. In languages with lexical scope, name resolution depends on the location in the source code and the lexical context, which is defined by where the named variable or function is defined."  [Wikipedia](https://en.wikipedia.org/wiki/Scope_(computer_science)#Lexical_scope_vs._dynamic_scope)
 
-The R language is lexically scoped; name resolution depends on context.  So, `df` is saved, but not in the global environment.  Instead, its lexical context is the `mode()` function, within which the name binding is valid.  Objects like `df` saved within a function will not appear in RStudio's Environment pane.
+The R language is lexically scoped; name resolution depends on context.  So, `df` is saved, but not in the global environment.  Instead, its lexical context is the `mode()` function, within which the name binding is valid. In effect, R *compartmentalizes* memory. Objects like `df` saved within a function will not appear in RStudio's Environment pane.
 
 :::
 
-To understand the action inside a function it can be helpful to run the code piece by piece.  We'll use `cyl` in mtcars as the test input. Here is the output from first two lines:
+To understand the action inside a function it can be helpful to run the code piece by piece.  We'll use `cyl` in `mtcars` as the test input. Here is the output from first two lines:
 
 ```{r}
 data.frame(x = mtcars$cyl) %>% 
@@ -2426,7 +2426,7 @@ Now, sort the table by `n`:
 
 data.frame(x = mtcars$cyl) %>% 
      count(x) %>% 
-     arrange(desc(n)) 
+     arrange(desc(n))
 ```
 
 The final step in the function is to extract the highest frequency value---8 cylinders--- from the table with `df[1, 1]`.
@@ -2450,17 +2450,122 @@ mtcars %>%
      round(2)
 ```
 
-
-
 We should acknowledge that there are some situations in which `mode()` would fail or produce misleading results.  
 
 1. It should not be used with a continuous vector. (The mode is a summary statistic for factor variables.)
 2. It will produce an error for any input other than a vector. (Try it with a data frame.)
 3. If there are two factor levels with the same number of observations it would return one of them arbitrarily.
 
-So, `mode()` could use some further development---we might want to build in some error messages and warnings---but it is a good first effort.
+So, this function could use some further development---we might want to build in some error messages and warnings, depending on how (and by whom) it will be used---but it is a good first effort. 
+
+## Loops
+
+In R, many functions are **vectorized**, meaning that they work on an entire vector at once, without needing to explicitly perform an operation on each individual element. Such functions are extremely fast and efficient.  For example, in an earlier lesson we saw that we could add 1 to each river length in the `rivers` data with `rivers + 1`.  The alternative would be tedious (to say the least), requiring a huge amount of typing: `c(rivers[1] + 1, rivers[2] + 1, ... rivers[141] + 1)`. However, we could easily automate this addition procedure with a loop, a fundamental programming construct in R that would iterate over each individual vector element in `rivers` and add a 1. We'll see how to do that in a moment. A loop in this case would not have much *practical* value, however. The vectorized approach would certainly be faster and easier.
+
+When---and why---would it be advantageous to use a loop? Let's start with the main *disadvantage*:  loops are slow, at least compared to a vectorized alternative. That may not always matter, of course.  You might be working with a relatively small data set, for example, in which case the difference in execution speed would be negligible. The main *advantage* of loops---also related to speed--- is that they are easy to conceptualize and set up. Sometimes it can be difficult to think of how to vectorize certain complicated operations that would be simple with a loop. In such cases, a loop might be slower to run but faster to set up, perhaps saving time overall. 
+
+There are two main features of a loop:
+
+1. Sequence. The counter  and the sequence for the loop iterations.
+2. Body. The code to be executed in each loop.
+
+Here is a (very) basic **for loop**.^[Another common loop type in R is a while loop, which continues the loop while a defined condition is true.  When that condition stops being true the loop ends. This type of loop uses the "while" keyword.]
+
+```{r}
+for (i in 1:5) {         # 1. Sequence
+     
+     print(i)            # 2. Body
+
+     }
+
+```
+
+This result shows the inner workings of the loop. In each loop the counter, `i`, increments by 1 for the length of the sequence `1:5`. In the first loop `i` equals 1, which is what gets printed.^[To print a return value inside a loop we cannot just type the name of the object  but must call `print()` explicitly.]   In the second loop `i` equals 2, and so forth.  The counter name is arbitrary, created by the programmer, and functions as a placeholder for each numbered iteration, to be used in the body of the loop. 
+
+In more complicated loops the counter is used to index observations from a variety of data structures.  To see how this works let's return to the `rivers` + 1 example. In this case we need to add a beginning step to initialize an empty vector that will  hold the new values.
+
+```{r}
+new_rivers <- rep(0, 141)               # Initialize output vector
+
+for(n in 1:141){                        # 1. Sequence
+     
+     new_rivers[n] <- rivers[n] + 1     # 2. Body
+
+     }
+
+sum(new_rivers == rivers + 1)           # Check. Should equal 141.
+
+```
+Looks good.  Let's unpack the code.
+
+- `new_rivers <- rep(0, 141)`: Creates an empty vector, `new_rivers`, that is equal to the length of `rivers` and consists in 0s.  These are placeholder values that will be incrementally replaced with the new values as the loop runs.  
+- `for(n in 1:141){ }`: Defines the counter, `n`, and sequence, `1:141`, to be looped over.
+- `new_rivers[n] <- rivers[n] + 1`: Assigns a value to the $n$th observation of `new_rivers` based on the  $n$th observation in `rivers`, after adding 1. 
+
+We've just done a lot of programming to perform a simple task! When would it actually be *easier* to use a loop?  
+
+Consider the following situation. A researcher has conducted a large-scale experiment involving 50 different labs across the country.  The data sets from each lab have been stored in a Github repository as .csv files.  How could they efficiently be downloaded and combined?  With a loop! This could be accomplished manually, of course, but a loop will be faster and less tedious.  Fortunately the  file names are numbered systematically---`experimental_data1.csv` through `experimental_data50.csv`---so it will be easy to loop through them. The files have the same three columns--- `lab_number`, `patient_id`, `result`---but different numbers of rows.  The end goal is to produce a single data frame that can be used for analysis. 
+
+For this example we will be using a couple of new functions:
+
+- `paste0()`: "Pastes" objects together into a single text string without spaces (that's what the `0` means).  To paste *with* spaces use `paste()`.
+- `rbind()`: Combines data frames with the same columns by stacking rows. The function name stands for "row bind." 
+
+Here is the loop:
+
+```{r}
+#| eval: false
+experimental_data <- data.frame()
+
+for(i in 1:50){
+     
+     url <- paste0("https://raw.githubusercontent.com/jefftwebb/data/main/experimental_data", i,".csv")
+     df <- read.csv(url)
+     experimental_data <- rbind(experimental_data, df)
+     print(i)
+     
+     }
+
+```
+
+Code explanation: 
+
+- `experimental_data <- data.frame()`: Initializes an empty data frame without specifying the exact columns or number of rows.
+- `for(i in 1:50){ }`: Defines the counter and sequence.
+- `url <- paste0("...", i,".csv")`: Constructs the temporary URL by pasting together the path to the data, the file number and the file type. Why temporary?  The URL will get overwritten in each loop as the counter increments. That is by design:  we only need the current URL.
+- `df <- read.csv(url)`: Reads the data from the URL and temporarily stores it in `df`, which will also get overwritten in each loop.
+- `experimental_data <- rbind(experimental_data, df)`: Adds the rows from `df` in each loop to the output data frame.
+- `print(i)`:  Prints the loop counter.  This is helpful to keep track of loop progress for potentially long running operations.
+
+The resulting data frame looks like this.
+
+```{r}
+#| include: false
+
+#write.csv(experimental_data, "experimental_data.csv", row.names = F)
+experimental_data <- read.csv("experimental_data.csv")
+```
 
 
+```{r}
+str(experimental_data)
+```
+
+Suppose the researcher would like a summary table with a count of patients and the average result from each lab. This analysis is now straightforward using dplyr functions:
+
+```{r}
+experimental_data %>% 
+     group_by(lab_number) %>% 
+     summarize(patient_count = n(),
+               avg_result = mean(result),
+               avg_result = round(avg_result, 2)) 
+
+```
+
+
+## Missing Observations
+
+Missing observations are a common feature of real data sets. 
 
 ## Appendix: List of R Functions{.unnumbered}
 
@@ -2539,3 +2644,6 @@ Functions are listed roughly in the order of appearance in these lessons.
 - `seq()` stands for "sequence" and has three main arguments: `from` (the start of the sequence), `to` (the end) and `by` (the increment).
 - `rep()` stands for "repeat" and has two main arguments:  `x` (the item to be repeated), `times` (the number of repetitions).
 - `function(){}`: Defines a function. The arguments to the function go within the parentheses and the body of the function ---the code to be executed---within the curly braces.
+- `for(i in seq){}" Defines a counter and sequence for a loop.  The code to be executed in the loop goes within the curly braces.
+- `paste0()`: Concatenates objects and "pastes" them together into a single text string without spaces (that's what the `0` means).
+- `paste()`: The same as `paste0()` except that spaces are added.
