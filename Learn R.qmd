@@ -2562,7 +2562,9 @@ experimental_data %>%
 
 ```
 
+## Bon Voyage
 
+These lessons have introduced the basics of R programming, with a focus on the skills needed for exploring data and preparing it for modeling.  You now have a solid foundation for data analysis in R.  Best of luck in your continued learning journey!
 
 ## Appendix: List of R Functions{.unnumbered}
 
