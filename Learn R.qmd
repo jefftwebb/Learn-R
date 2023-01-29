@@ -351,7 +351,7 @@ hist(rivers)
 
 The plot will show up in the plot tab of the Files pane in the lower right quadrant of RStudio.
 
-`hist()` is an example of a R **function**. It takes a vector of numbers as an **argument** and then (in this case) prints the histogram. The resulting plot provides insight into the distribution of river lengths, showing that the majority of rivers in North America are shorter than 1000 miles, with the most common length less than 500 miles. There is at least one extreme observation---the Mississippi?--- on the right.
+`hist()` is an example of a R **function**. It takes a vector of numbers as an **argument** and then (in this case) prints the histogram. The resulting plot provides insight into river lengths in North America, showing that the majority of rivers are shorter than 1000 miles, with the most common length less than 500 miles. There is at least one extreme observation---the Mississippi?--- on the right.
 
 To see another function in action, let's calculate median river length using `median()`.[^10] (Using a function is also known as "calling a function". )
 
@@ -706,7 +706,7 @@ What appears to be the first column, with the names of the cars, is actually not
 If you run `head(mtcars)` in Rstudio you will notice that each column in the snapshot includes a label with the data type listed as "dbl." (The label is left out in the HTML document you are reading.) "dbl" stands for "double," which stands for "double-precision floating-point number," a data type that can represent very large or very small fractional numbers with a high degree of accuracy. It typically uses 64 bits of memory to store a numerical value, which allows it to represent a much wider range of numbers than other data types that use fewer bits, roughly $10^{-308}$ to $10^{308}$. In R "dbl" is basically a synonym for "numeric."
 :::
 
-The `str()`function provides helpful information about the structure of a data frame. (The "str" stands for "structure.")
+The `str()`function provides helpful information about the structure of a data frame. ("str" stands for "structure.")
 
 ```{r}
 str(mtcars)
@@ -716,7 +716,7 @@ This is a general function (it works also with vectors) that usefully displays t
 
 The `summary()` function provides a **five number summary**[^17] of the columns.
 
-[^17]: The five number summary describes numeric data using five values: the minimum value, the first quartile (25th percentile), the median, the third quartile (75th percentile), and the maximum value. These provide a quick and easy way to understand the distribution and range of numeric columns in a dataset.
+[^17]: The five number summary describes numeric data using five values: the minimum value, the first quartile (25th percentile), the median, the third quartile (75th percentile), and the maximum value. These provide a quick and easy way to understand the spread of numeric data.
 
 ```{r}
 summary(mtcars)
@@ -878,7 +878,7 @@ There are obviously a lot of possibilities for combining logical conditions to s
 
 Plotting is a powerful way to understand relationships in data.
 
-Earlier we used `hist()` to create a frequency plot of river lengths. This plot choice was appropriate because `rivers` is one dimensional: we were examining the *distribution* of observations in the vector.
+Earlier we used `hist()` to create a frequency plot of river lengths. This plot choice was appropriate because `rivers` is one dimensional: we were examining the frequency of observations in the vector.
 
 ```{r}
 hist(rivers)
@@ -914,7 +914,7 @@ What about the relationship between number of cylinders and gas mileage?
 plot(mtcars$cyl, mtcars$mpg, main = "Scatterplot of cyl vs. mpg")
 ```
 
-This also shows a negative relationship: as `cyl` goes up, `mpg` goes down. This makes sense, since more cylinders use more gas. But there's something strange about this plot, in that the observations of `cyl` are overplotted, clustered at only 4, 6, or 8. In `mtcars` these data are numeric, consisting in counts of cylinders. But, as discussed above, we could think of the counts as essentially representing different engine *types*, in which case the data would be categorical. The go-to plot for comparing categorical and numeric data is the **boxplot**.[^20] It is better suited than a scatterplot for showing the distribution of numeric data at different levels of a categorical variable.
+This also shows a negative relationship: as `cyl` goes up, `mpg` goes down. This makes sense, since more cylinders use more gas. But there's something strange about this plot, in that the observations of `cyl` are overplotted, clustered at only 4, 6, or 8. In `mtcars` these data are numeric, consisting in counts of cylinders. But, as discussed above, we could think of the counts as essentially representing different engine *types*, in which case the data would be categorical. The go-to plot for comparing categorical and numeric data is the **boxplot**.[^20] It is better suited than a scatterplot for showing the **distribution** of numeric data at different levels of a categorical variable.^[The term "distribution" has a somewhat technical meaning in statistics. We will typically use it to refer to the observed values of a variable and how often they occur.  Of course, a histogram is the most common plot for visualizing a variable's distribution.  But a boxplot also shows the distribution, since the box represents the most frequent observations. ]
 
 [^20]: Check out the entry at Wikipedia to learn more about [boxplots](https://en.wikipedia.org/wiki/Box_plot). There is also an entry on [scatterplots](https://en.wikipedia.org/wiki/Scatter_plot).
 
@@ -1516,7 +1516,7 @@ Creating **summary tables** is an essential step in any analytics project.[^39] 
 
 -   The dimensions of the data set---number of rows and columns.
 -   The data types of the variables.
--   The range or distribution of values for each variable.
+-   The distribution of values for each variable.
 -   Missing or unusual values.
 -   Summary statistics such as mean, median, and standard deviation for each numeric variable.
 -   Counts and percentages for categorical variables.
@@ -1761,7 +1761,7 @@ These are the basics.  We will cover additional plot components in the context o
 
 ## Histogram and Density Plots
 
-A histogram, as we saw in an earlier lesson, is a frequency plot in which the $y$-axis is a count of the observations in a "bin" defined by an interval on the $x$-axis, and represented by the bars in the plot.  We call this the **distribution** of the variable. It is helpful to look at the distribution to see whether, for example, there are any natural groupings in the data.
+A histogram, as we saw in an earlier lesson, is a frequency plot in which the $y$-axis is a count of the observations in a "bin" defined by an interval on the $x$-axis, and represented by the bars in the plot.  It is helpful to look at the distribution of observations to see whether, for example, there are any natural groupings in the data.
 
 Because a histogram does not show a relationship, there is no $y$ argument. By default, the $y$-axis in a histogram is a count.
 
@@ -1889,7 +1889,7 @@ mtcars %>%
 
 That's better. 
 
-Think of boxplots as simplified histograms lying on their sides, with the box representing the central 50% of the frequency distribution---often involving the tallest middle bars in the histogram--- between the first and third quartiles of the data.^[For more details, see the discussion of boxplots in the earlier lesson, "Visualizing Data."] 
+Think of boxplots as simplified histograms lying on their sides, with the box representing the central 50% of the  distribution---often involving the tallest middle bars in the histogram--- between the first and third quartiles of the data.^[For more details, see the discussion of boxplots in the earlier lesson, "Visualizing Data."] 
 
 ## Bar Plot
 
@@ -2562,9 +2562,9 @@ experimental_data %>%
 
 ```
 
-## Bon Voyage
+## Bon Voyage {.unnumbered}
 
-These lessons have introduced the basics of R programming, with a focus on the skills needed for exploring data and preparing it for modeling.  You now have a solid foundation for data analysis in R.  Best of luck in your continued learning journey!
+These lessons have introduced the basics of R programming, with a focus on the practical skills needed for exploring and wrangling data.  You now have a solid foundation for doing data analysis in R.  Best of luck in your continued learning journey!
 
 ## Appendix: List of R Functions{.unnumbered}
 
